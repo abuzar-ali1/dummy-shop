@@ -1,5 +1,5 @@
 "use client";
-import "/globals.css";
+import '../app/globals.css'; // adjust path as needed
 import { motion, AnimatePresence } from 'framer-motion';
 
 import { useState } from "react";
