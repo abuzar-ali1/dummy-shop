@@ -1,6 +1,6 @@
 "use client";
-import '../app/globals.css'; // adjust path as needed
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
+import "../../globals.css";
 
 import { useState } from "react";
 import {
@@ -78,7 +78,7 @@ export default function Header() {
         <div className="flex lg:flex-1">
           <a href="#" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
-             <motion.div className="text-white font-us text-2xl font-bold" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}}>
+             <motion.div className="font-us text-white font-us text-2xl font-bold" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}}>
               DummyShop
              </motion.div>
           </a>
