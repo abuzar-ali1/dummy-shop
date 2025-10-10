@@ -1,5 +1,5 @@
 "use client";
-import "/workspaces/dummy-shop/app/globals.css";
+import "/globals.css";
 import { motion, AnimatePresence } from 'framer-motion';
 
 import { useState } from "react";
