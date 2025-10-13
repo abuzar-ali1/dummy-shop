@@ -1,4 +1,5 @@
 "use client";
+import BestSellersSection from "./ui/Components/BestSeller";
 import FeaturedCollections from "./ui/Components/FeaturedCollections";
 import Header from "./ui/Components/Header";
 import HeroSection from "./ui/Components/Hero";
@@ -10,6 +11,7 @@ export default function Home() {
     <HeroSection/>
     <FeaturedCollections/>
     <NewArrivals/>
+    <BestSellersSection/>
     </div>
   );
 }
