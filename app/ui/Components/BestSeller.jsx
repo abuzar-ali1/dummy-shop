@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion';
 import { StarIcon } from '@heroicons/react/24/solid';
 import BestSellerProductCard from './BestSellerProductCard';
+import FillHoverButton from './FillHoverButton';
+
 
 const BestSellersSection = () => {
 
@@ -154,9 +156,9 @@ const bestSellerProducts = [
         viewport={{ once: true }}
         transition={{ duration: 0.5, delay: 0.2 }}
       >
-        <button className="bg-gray-900 text-white px-6 py-3 rounded-md hover:bg-gray-800 transition-colors duration-200 font-medium">
+        <FillHoverButton>
           Shop all best sellers
-        </button>
+        </FillHoverButton>
       </motion.div>
     </section>
   );

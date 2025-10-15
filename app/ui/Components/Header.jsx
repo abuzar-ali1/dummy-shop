@@ -1,6 +1,7 @@
 "use client";
 import { motion } from 'framer-motion';
 import "../../globals.css";
+import Link from 'next/link';
 
 import { useState } from "react";
 import {
@@ -95,7 +96,7 @@ export default function Header() {
         </div>
         <PopoverGroup className="hidden lg:flex lg:gap-x-12">
 
-          <a href="#" className="text-sm/6 font-semibold text-white">
+          <a href="/products" className="text-sm/6 font-semibold text-white">
             Products
           </a>
           <a href="#" className="text-sm/6 font-semibold text-white">
