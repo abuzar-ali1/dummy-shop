@@ -29,9 +29,8 @@ import {
   PhoneIcon,
   PlayCircleIcon,
 } from "@heroicons/react/20/solid";
-
-const products = [
-  {
+const products =[
+   {
     name: "Analytics",
     description: "Get a better understanding of your traffic",
     href: "#",
@@ -77,12 +76,12 @@ export default function Header() {
         className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
       >
         <div className="flex lg:flex-1">
-          <a href="#" className="-m-1.5 p-1.5">
+          <Link href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
              <motion.div className="font-us text-white font-us text-2xl font-bold" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}}>
               DummyShop
              </motion.div>
-          </a>
+          </Link>
         </div>
         <div className="flex lg:hidden">
           <button
@@ -95,16 +94,15 @@ export default function Header() {
           </button>
         </div>
         <PopoverGroup className="hidden lg:flex lg:gap-x-12">
-
           <a href="/products" className="text-sm/6 font-semibold text-white">
             Products
           </a>
           <a href="#" className="text-sm/6 font-semibold text-white">
             Marketplace
           </a>
-          <a href="#" className="text-sm/6 content font-semibold text-white">
+          <Link href="/company" className="text-sm/6 content font-semibold text-white">
             Company
-          </a>
+          </Link>
           <Popover className="relative z-50">
             <PopoverButton className="flex items-center gap-x-1 text-sm/6 font-semibold text-white">
               Features

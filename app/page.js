@@ -19,8 +19,8 @@ export default function Home() {
     <CustomerReviews/>
     <WhyChooseUs/>
     <BlogSection/>
-    <OurTeam/>
     <FinalCTA/>
+    <OurTeam/>
     </div>
   );
 }
