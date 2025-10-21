@@ -16,54 +16,65 @@ import {
   PopoverPanel,
 } from "@headlessui/react";
 import {
-  ArrowPathIcon,
   Bars3Icon,
-  ChartPieIcon,
-  CursorArrowRaysIcon,
-  FingerPrintIcon,
-  SquaresPlusIcon,
   XMarkIcon,
+  SparklesIcon,
+  StarIcon,
+  ShoppingBagIcon,
+  TruckIcon,
+  ShieldCheckIcon
 } from "@heroicons/react/24/outline";
 import {
   ChevronDownIcon,
   PhoneIcon,
-  PlayCircleIcon,
 } from "@heroicons/react/20/solid";
-const products =[
-   {
-    name: "Analytics",
-    description: "Get a better understanding of your traffic",
-    href: "#",
-    icon: ChartPieIcon,
+
+const products = [
+  {
+    name: "New Arrivals",
+    description: "Fresh styles updated weekly with fast delivery",
+    href: "/products?filter=new",
+    icon: SparklesIcon,
+    color: "from-cyan-500 to-blue-500",
+    badge: "Just Launched"
   },
   {
-    name: "Engagement",
-    description: "Speak directly to your customers",
-    href: "#",
-    icon: CursorArrowRaysIcon,
+    name: "Best Sellers",
+    description: "Top picks loved by thousands of customers",
+    href: "/products?filter=bestsellers",
+    icon: StarIcon,
+    color: "from-amber-500 to-orange-500",
+    badge: "Popular"
   },
   {
-    name: "Security",
-    description: "Your customers’ data will be safe and secure",
-    href: "#",
-    icon: FingerPrintIcon,
+    name: "Sustainable Collection",
+    description: "Eco-friendly products for conscious living",
+    href: "/products?filter=sustainable",
+    icon: ShieldCheckIcon,
+    color: "from-green-500 to-emerald-500",
+    badge: "Eco"
   },
   {
-    name: "Integrations",
-    description: "Connect with third-party tools",
-    href: "#",
-    icon: SquaresPlusIcon,
+    name: "Accessories",
+    description: "Complete your look with our premium accessories",
+    href: "/products?filter=accessories",
+    icon: ShoppingBagIcon,
+    color: "from-purple-500 to-pink-500",
+    badge: "Style"
   },
   {
-    name: "Automations",
-    description: "Build strategic funnels that will convert",
-    href: "#",
-    icon: ArrowPathIcon,
-  },
+    name: "Fast Shipping",
+    description: "Free 2-day delivery on orders over $50",
+    href: "/shipping",
+    icon: TruckIcon,
+    color: "from-blue-500 to-cyan-500",
+    badge: "Free"
+  }
 ];
+
 const callsToAction = [
-  { name: "Watch demo", href: "#", icon: PlayCircleIcon },
-  { name: "Contact sales", href: "#", icon: PhoneIcon },
+  { name: "Shop All Products", href: "/products", icon: ShoppingBagIcon },
+  { name: "Contact Support", href: "/contact", icon: PhoneIcon },
 ];
 
 export default function Header() {
@@ -77,97 +88,114 @@ export default function Header() {
       >
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5">
-            <span className="sr-only">Your Company</span>
-             <motion.div className="font-us text-white font-us text-2xl font-bold" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}}>
+            <span className="sr-only">DummyShop</span>
+            <motion.div
+              className="font-us text-white text-2xl font-bold"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              whileHover={{ scale: 1.05 }}
+            >
               DummyShop
-             </motion.div>
+            </motion.div>
           </Link>
         </div>
         <div className="flex lg:hidden">
           <button
             type="button"
             onClick={() => setMobileMenuOpen(true)}
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-400"
+            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-400 hover:text-white transition-colors duration-200"
           >
             <span className="sr-only">Open main menu</span>
             <Bars3Icon aria-hidden="true" className="size-6" />
           </button>
         </div>
         <PopoverGroup className="hidden lg:flex lg:gap-x-12">
-          <a href="/products" className="text-sm/6 font-semibold text-white">
+          <Link href="/products" className="text-sm/6 font-semibold text-white hover:text-cyan-300 transition-colors duration-200">
             Products
-          </a>
-          <a href="#" className="text-sm/6 font-semibold text-white">
+          </Link>
+          <a  href="#" className="text-sm/6 font-semibold text-white hover:text-cyan-300 transition-colors duration-200">
             Marketplace
           </a>
-          <Link href="/company" className="text-sm/6 content font-semibold text-white">
+          <Link href="/company" className="text-sm/6 font-semibold text-white hover:text-cyan-300 transition-colors duration-200">
             Company
           </Link>
-          <Popover className="relative z-50">
-            <PopoverButton className="flex items-center gap-x-1 text-sm/6 font-semibold text-white">
+          <Popover className="relative">
+            <PopoverButton className="flex items-center gap-x-1 text-sm/6 font-semibold text-white hover:text-cyan-300 transition-colors duration-200 outline-none">
               Features
               <ChevronDownIcon
                 aria-hidden="true"
-                className="size-5 flex-none text-gray-500"
+                className="size-4 flex-none text-gray-400 group-hover:text-cyan-300 transition-colors duration-200"
               />
             </PopoverButton>
 
             <PopoverPanel
               transition
-              className="absolute left-1/2 z-10 mt-3 w-screen max-w-md -translate-x-1/2 overflow-hidden rounded-3xl bg-gray-800 outline-1 -outline-offset-1 outline-white/10 transition data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in"
+              className="absolute left-1/2 z-10 mt-5 w-screen max-w-lg -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-3xl"
             >
-              <div className="p-4">
-                {products.map((item) => (
-                  <div
-                    key={item.name}
-                    className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm/6 hover:bg-white/5"
-                  >
-                    <div className="flex size-11 flex-none items-center justify-center rounded-lg bg-gray-700/50 group-hover:bg-gray-700">
-                      <item.icon
-                        aria-hidden="true"
-                        className="size-6 text-gray-400 group-hover:text-white"
-                      />
-                    </div>
-                    <div className="flex-auto">
-                      <a
+              <motion.div
+                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                transition={{ duration: 0.2 }}
+                className="overflow-hidden rounded-2xl bg-gray-800 shadow-xl ring-1 ring-cyan-500/20"
+              >
+                <div className="relative grid gap-6 bg-gray-800 p-6 lg:grid-cols-2">
+                  {products.map((item) => (
+                    <motion.a
+                      key={item.name}
+                      href={item.href}
+                      className="group -m-3 flex items-start rounded-lg p-3 hover:bg-gray-700/50 transition-all duration-200 border border-transparent hover:border-cyan-500/20"
+                      whileHover={{ x: 5 }}
+                    >
+                      <div className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-gradient-to-r ${item.color} shadow-lg`}>
+                        <item.icon className="h-6 w-6 text-white" aria-hidden="true" />
+                      </div>
+                      <div className="ml-4">
+                        <div className="flex items-center space-x-2">
+                          <p className="text-sm font-medium text-white">{item.name}</p>
+                          <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r ${item.color} text-white shadow-sm`}>
+                            {item.badge}
+                          </span>
+                        </div>
+                        <p className="mt-1 text-sm text-gray-300">{item.description}</p>
+                      </div>
+                    </motion.a>
+                  ))}
+                </div>
+                <div className="bg-gradient-to-r from-gray-700 to-gray-900 p-6 border-t border-gray-700">
+                  <div className="flex justify-between space-x-4">
+                    {callsToAction.map((item) => (
+                      <motion.a
+                        key={item.name}
                         href={item.href}
-                        className="block font-semibold text-white"
+                        className="flex items-center text-sm font-medium text-white hover:text-cyan-300 transition-colors duration-200 group"
+                        whileHover={{ scale: 1.05 }}
                       >
+                        <item.icon className="h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-cyan-300 mr-2 transition-colors duration-200" aria-hidden="true" />
                         {item.name}
-                        <span className="absolute inset-0" />
-                      </a>
-                      <p className="mt-1 text-gray-400">{item.description}</p>
-                    </div>
+                      </motion.a>
+                    ))}
                   </div>
-                ))}
-              </div>
-              <div className="grid grid-cols-2 divide-x divide-white/10 bg-gray-700/50">
-                {callsToAction.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className="flex items-center justify-center gap-x-2.5 p-3 text-sm/6 font-semibold text-white hover:bg-gray-700/50"
-                  >
-                    <item.icon
-                      aria-hidden="true"
-                      className="size-5 flex-none text-gray-500"
-                    />
-                    {item.name}
-                  </a>
-                ))}
-              </div>
+                </div>
+              </motion.div>
             </PopoverPanel>
           </Popover>
         </PopoverGroup>
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <a href="#" className="text-sm/6 font-semibold text-white">
+        <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:space-x-4">
+          <motion.a
+            href="#"
+            className="text-gray-400 hover:text-white transition-colors duration-200"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth="1.5"
               stroke="currentColor"
-              className="size-6"  
+              className="size-6"
             >
               <path
                 strokeLinecap="round"
@@ -175,9 +203,14 @@ export default function Header() {
                 d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
               />
             </svg>
-          </a>
+          </motion.a>
 
-          <a href="#" className="mx-3 text-sm/6 font-semibold text-white">
+          <motion.a
+            href="#"
+            className="text-gray-400 hover:text-white transition-colors duration-200"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -192,24 +225,29 @@ export default function Header() {
                 d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
               />
             </svg>
-          </a>
+          </motion.a>
 
-          <a href="#" className="text-sm/6 font-semibold text-white">
+          <motion.a
+            href="#"
+            className="text-gray-400 hover:text-white transition-colors duration-200"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              strokeWidth="1.5"  
+              strokeWidth="1.5"
               stroke="currentColor"
               className="size-6"
             >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="M13.5 21v-7.5a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349M3.75 21V9.349m0 0a3.001 3.001 0 0 0 3.75-.615A2.993 2.993 0 0 0 9.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 0 0 2.25 1.016c.896 0 1.7-.393 2.25-1.015a3.001 3.001 0 0 0 3.75.614m-16.5 0a3.004 3.004 0 0 1-.621-4.72l1.189-1.19A1.5 1.5 0 0 1 5.378 3h13.243a1.5 1.5 0 0 1 1.06.44l1.19 1.189a3 3 0 0 1-.621 4.72M6.75 18h3.75a.75.75 0 0 0 .75-.75V13.5a.75.75 0 0 0-.75-.75H6.75a.75.75 0 0 0-.75.75v3.75c0 .414.336.75.75.75Z"
+                d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
               />
             </svg>
-          </a>
+          </motion.a>
         </div>
       </nav>
       <Dialog
@@ -220,18 +258,14 @@ export default function Header() {
         <div className="fixed inset-0 z-50" />
         <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-gray-900 p-6 sm:max-w-sm sm:ring-1 sm:ring-gray-100/10">
           <div className="flex items-center justify-between">
-            <a href="#" className="-m-1.5 p-1.5">
-              <span className="sr-only">Your Company</span>
-              <img
-                alt=""
-                src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
-                className="h-8 w-auto"
-              />
-            </a>
+            <Link href="/" className="-m-1.5 p-1.5">
+              <span className="sr-only">DummyShop</span>
+              <div className="text-white text-xl font-bold">DummyShop</div>
+            </Link>
             <button
               type="button"
               onClick={() => setMobileMenuOpen(false)}
-              className="-m-2.5 rounded-md p-2.5 text-gray-400"
+              className="-m-2.5 rounded-md p-2.5 text-gray-400 hover:text-white transition-colors duration-200"
             >
               <span className="sr-only">Close menu</span>
               <XMarkIcon aria-hidden="true" className="size-6" />
@@ -240,83 +274,73 @@ export default function Header() {
           <div className="mt-6 flow-root">
             <div className="-my-6 divide-y divide-white/10">
               <div className="space-y-2 py-6">
+                <Disclosure as="div" className="-mx-3">
+                  <DisclosureButton className="group flex w-full items-center justify-between rounded-lg py-2 pr-3.5 pl-3 text-base/7 font-semibold text-white hover:bg-gray-800 transition-colors duration-200">
+                    Features
+                    <ChevronDownIcon
+                      aria-hidden="true"
+                      className="size-5 flex-none group-data-open:rotate-180 transition-transform duration-200"
+                    />
+                  </DisclosureButton>
+                  <DisclosurePanel className="mt-2 space-y-2">
+                    {products.map((item) => (
+                      <DisclosureButton
+                        key={item.name}
+                        as="a"
+                        href={item.href}
+                        className="block rounded-lg py-2 pr-3 pl-6 text-sm/7 font-semibold text-white hover:bg-gray-800 transition-colors duration-200 flex items-center space-x-3 border border-transparent hover:border-cyan-500/20"
+                      >
+                        <div className={`w-8 h-8 rounded-lg bg-gradient-to-r ${item.color} flex items-center justify-center shadow-lg`}>
+                          <item.icon className="w-4 h-4 text-white" />
+                        </div>
+                        <div>
+                          <div className="flex items-center space-x-2">
+                            <span>{item.name}</span>
+                            <span className={`text-xs px-1.5 py-0.5 rounded bg-gradient-to-r ${item.color} text-white`}>
+                              {item.badge}
+                            </span>
+                          </div>
+                          <p className="text-xs text-gray-300 mt-1">{item.description}</p>
+                        </div>
+                      </DisclosureButton>
+                    ))}
+                  </DisclosurePanel>
+                </Disclosure>
                 <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5"
-                >
-                  Features
-                </a>
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5"
+                  href="/products"
+                  className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-gray-800 transition-colors duration-200"
                 >
                   Products
                 </a>
                 <a
                   href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5"
+                  className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-gray-800 transition-colors duration-200"
+                >
+                  Marketplace
+                </a>
+                <a
+                  href="/company"
+                  className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-gray-800 transition-colors duration-200"
                 >
                   Company
                 </a>
-                <Disclosure as="div" className="-mx-3">
-                  <DisclosureButton className="group flex w-full items-center justify-between rounded-lg py-2 pr-3.5 pl-3 text-base/7 font-semibold text-white hover:bg-white/5">
-                    Marketplace
-                    <ChevronDownIcon
-                      aria-hidden="true"
-                      className="size-5 flex-none group-data-open:rotate-180"
-                    />
-                  </DisclosureButton>
-                  <DisclosurePanel className="mt-2 space-y-2">
-                    {[...products, ...callsToAction].map((item) => (
-                      <DisclosureButton
-                        key={item.name}
-                        as="a"
-                        href={item.href}
-                        className="block rounded-lg py-2 pr-3 pl-6 text-sm/7 font-semibold text-white hover:bg-white/5"
-                      >
-                        {item.name}
-                      </DisclosureButton>
-                    ))}
-                  </DisclosurePanel>
-                </Disclosure>
               </div>
-              <div className="py-6">
-                <div className=" lg:flex lg:flex-1 lg:justify-end">
-          <a href="#" className="text-sm/6 font-semibold text-white">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              className="size-6"  
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-              />
-            </svg>
-          </a>
-
-          <a href="#" className="mx-3 text-sm/6 font-semibold text-white">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              className="size-6"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
-              />
-            </svg>
-          </a>
-
-                </div>
+              <div className="py-6 flex space-x-4">
+                <a href="#" className="text-gray-400 hover:text-white transition-colors duration-200">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                  </svg>
+                </a>
+                <a href="#" className="text-gray-400 hover:text-white transition-colors duration-200">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                  </svg>
+                </a>
+                <a href="#" className="text-gray-400 hover:text-white transition-colors duration-200">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                  </svg>
+                </a>
               </div>
             </div>
           </div>

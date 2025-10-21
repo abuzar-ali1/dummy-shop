@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Footer from "./ui/Components/Footer";
 import Header from "./ui/Components/Header";
+import { ToastProvider } from "./ui/Components/ToastProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,16 +20,23 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
       >
-        <Header/>
-        <main className="flex-1 pt-25">
-          {children}
-        </main>
-        <Footer/>
+        <ToastProvider>
+
+          <Header />
+          <main className="flex-1 pt-25">
+            {children}
+          </main>
+          <Footer />
+
+        </ToastProvider>
+
       </body>
     </html>
   );

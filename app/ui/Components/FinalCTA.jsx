@@ -77,7 +77,6 @@ const FinalCTA = () => {
       ease: "easeInOut"
     }
   };
-
   return (
     <section className="relative py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 overflow-hidden">
       {/* Background Elements */}
