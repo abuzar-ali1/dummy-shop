@@ -7,59 +7,10 @@ import {
   EyeIcon,
   HeartIcon
 } from '@heroicons/react/24/outline';
-import Image from 'next/image';
+import { blogPosts } from '@/data/blogs';
 
 const BlogSection = () => {
-  const blogPosts = [
-    {
-      id: 1,
-      title: "The Ultimate Guide to Capsule Wardrobe Essentials",
-      excerpt: "Learn how to build a minimalist wardrobe with versatile pieces that work for every occasion and season.",
-      image: "/blog/capsule-wardrobe.jpg",
-      category: "Style Guide",
-      readTime: "6 min read",
-      date: "Oct 15, 2025",
-      author: "Emma Wilson",
-      views: "2.4K",
-      likes: 128
-    },
-    {
-      id: 2,
-      title: "Sustainable Fashion: How to Build an Eco-Friendly Closet",
-      excerpt: "Discover practical tips for making conscious fashion choices that benefit both your style and the planet.",
-      image: "/blog/sustainable-fashion.jpg",
-      category: "Sustainability",
-      readTime: "8 min read",
-      date: "Oct 12, 2025",
-      author: "James Chen",
-      views: "3.1K",
-      likes: 156
-    },
-    {
-      id: 3,
-      title: "5 Work From Home Outfits That Boost Productivity",
-      excerpt: "Stay comfortable and professional while working from home with these stylish yet practical outfit ideas.",
-      image: "/blog/wfh-outfits.jpg",
-      category: "Lifestyle",
-      readTime: "5 min read",
-      date: "Oct 8, 2025",
-      author: "Sophia Martinez",
-      views: "4.2K",
-      likes: 203
-    },
-    {
-      id: 4,
-      title: "The Science of Comfort: What Makes Perfect Everyday Shoes",
-      excerpt: "Exploring the technology and design behind creating shoes that feel as good as they look all day long.",
-      image: "/blog/shoe-comfort.jpg",
-      category: "Product Deep Dive",
-      readTime: "7 min read",
-      date: "Oct 5, 2025",
-      author: "Dr. Michael Roberts",
-      views: "1.8K",
-      likes: 94
-    }
-  ];
+
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -138,8 +89,9 @@ const BlogSection = () => {
           viewport={{ once: true, margin: "-50px" }}
         >
           {blogPosts.map((post) => (
-            <motion.article
+            <motion.a
               key={post.id}
+              href={`blogs/${post.id}`}
               variants={cardVariants}
               whileHover="hover"
               className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden group cursor-pointer"
@@ -151,14 +103,7 @@ const BlogSection = () => {
                   className="w-full h-full"
                 >
                   {/* Replace with actual Image component */}
-                  <div className="w-full h-full bg-gradient-to-br from-cyan-100 to-blue-100 flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="w-12 h-12 bg-white rounded-lg mb-2 mx-auto flex items-center justify-center">
-                        <CalendarIcon className="w-6 h-6 text-cyan-600" />
-                      </div>
-                      <span className="text-sm text-cyan-800 font-medium">Blog Image</span>
-                    </div>
-                  </div>
+                  <img src={post.image} alt="BLogs image" />
                 </motion.div>
                 
                 {/* Category Badge */}
@@ -228,7 +173,7 @@ const BlogSection = () => {
                   </div>
                 </div>
               </div>
-            </motion.article>
+            </motion.a>
           ))}
         </motion.div>
 

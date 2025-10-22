@@ -2,7 +2,6 @@
 import { motion } from 'framer-motion';
 import "../../globals.css";
 import Link from 'next/link';
-
 import { useState } from "react";
 import {
   Dialog,
