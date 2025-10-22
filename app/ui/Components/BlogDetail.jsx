@@ -1,5 +1,6 @@
 "use client";
 import React from 'react'
+import { notFound, useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { 
   CalendarIcon,
@@ -13,7 +14,15 @@ import {
 import Link from 'next/link';
 
 
-const BlogDetail = ({blog ,blogPosts}) => {
+const BlogDetail = ({blogPosts}) => {
+
+   const params = useParams();
+   const blog = blogPosts.find(post => post.id === parseInt(params.id));
+
+  if (!blog) {
+    notFound();
+  };
+
   return (
  <div className="min-h-screen bg-gray-50 pt-20">
       {/* Navigation */}

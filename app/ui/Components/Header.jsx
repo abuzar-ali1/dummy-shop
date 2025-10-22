@@ -2,7 +2,7 @@
 import { motion } from 'framer-motion';
 import "../../globals.css";
 import Link from 'next/link';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogPanel,
@@ -21,12 +21,15 @@ import {
   StarIcon,
   ShoppingBagIcon,
   TruckIcon,
-  ShieldCheckIcon
+  ShieldCheckIcon,
+  UserIcon,
+  ArrowRightOnRectangleIcon
 } from "@heroicons/react/24/outline";
 import {
   ChevronDownIcon,
   PhoneIcon,
 } from "@heroicons/react/20/solid";
+import { useAuth } from '@/app/context/AuthContext';
 
 const products = [
   {
@@ -79,6 +82,18 @@ const callsToAction = [
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  const { currentUser, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout(); // This updates context AND localStorage
+  };
+
+
+  const getUserInitial = () => {
+    if (!currentUser?.firstName) return 'U';
+    return currentUser.firstName.charAt(0).toUpperCase();
+  };
+
   return (
     <header className="bg-gray-900 fixed top-0 left-0 right-0 z-50 backdrop-blur-sm shadow-sm transition-colors duration-300">
       <nav
@@ -113,7 +128,7 @@ export default function Header() {
           <Link href="/products" className="text-sm/6 font-semibold text-white hover:text-cyan-300 transition-colors duration-200">
             Products
           </Link>
-          <a  href="#" className="text-sm/6 font-semibold text-white hover:text-cyan-300 transition-colors duration-200">
+          <a href="#" className="text-sm/6 font-semibold text-white hover:text-cyan-300 transition-colors duration-200">
             Marketplace
           </a>
           <Link href="/company" className="text-sm/6 font-semibold text-white hover:text-cyan-300 transition-colors duration-200">
@@ -181,29 +196,83 @@ export default function Header() {
             </PopoverPanel>
           </Popover>
         </PopoverGroup>
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:space-x-4">
-          <motion.a
-            href="#"
-            className="text-gray-400 hover:text-white transition-colors duration-200"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-              />
-            </svg>
-          </motion.a>
+        <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:space-x-4 lg:items-center">
+          {/* User Profile or Login Icon */}
+          {currentUser ? (
+            <Popover className="relative">
+              <PopoverButton className="flex items-center gap-x-1 outline-none">
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="w-8 h-8 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center text-white font-semibold text-sm cursor-pointer"
+                >
+                  {getUserInitial()}
+                </motion.div>
+              </PopoverButton>
 
+              <PopoverPanel
+                transition
+                className="absolute right-0 z-10 mt-3 w-64 origin-top-right rounded-2xl bg-gray-800 shadow-xl ring-1 ring-cyan-500/20"
+              >
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="p-4"
+                >
+                  {/* User Info */}
+                  <div className="flex items-center space-x-3 mb-4 pb-4 border-b border-gray-700">
+                    <div className="w-10 h-10 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center text-white font-semibold">
+                      {getUserInitial()}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-white truncate">
+                        {currentUser.firstName} {currentUser.lastName}
+                      </p>
+                      <p className="text-sm text-gray-300 truncate">
+                        {currentUser.email}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Menu Items */}
+                  <div className="space-y-2">
+                    <a
+                      href="/profile"
+                      className="flex items-center px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-gray-700/50 rounded-lg transition-colors duration-200"
+                    >
+                      <UserIcon className="w-4 h-4 mr-3" />
+                      My Profile
+                    </a>
+                    <a
+                      href="/orders"
+                      className="flex items-center px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-gray-700/50 rounded-lg transition-colors duration-200"
+                    >
+                      <ShoppingBagIcon className="w-4 h-4 mr-3" />
+                      My Orders
+                    </a>
+                    <button
+                      onClick={handleLogout}
+                      className="flex items-center w-full px-3 py-2 text-sm text-red-300 hover:text-red-100 hover:bg-red-900/20 rounded-lg transition-colors duration-200"
+                    >
+                      <ArrowRightOnRectangleIcon className="w-4 h-4 mr-3" />
+                      Sign Out
+                    </button>
+                  </div>
+                </motion.div>
+              </PopoverPanel>
+            </Popover>
+          ) : (
+            <motion.a
+              href="/login"
+              className="text-gray-400 hover:text-white transition-colors duration-200"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <UserIcon className="size-6" />
+            </motion.a>
+          )}
+
+          {/* Cart Icon */}
           <motion.a
             href="#"
             className="text-gray-400 hover:text-white transition-colors duration-200"
@@ -226,6 +295,7 @@ export default function Header() {
             </svg>
           </motion.a>
 
+          {/* Wishlist Icon */}
           <motion.a
             href="#"
             className="text-gray-400 hover:text-white transition-colors duration-200"
@@ -325,11 +395,26 @@ export default function Header() {
                 </a>
               </div>
               <div className="py-6 flex space-x-4">
-                <a href="#" className="text-gray-400 hover:text-white transition-colors duration-200">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                  </svg>
-                </a>
+                {currentUser ? (
+                  <div className="flex items-center space-x-3">
+                    <div className="w-8 h-8 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                      {getUserInitial()}
+                    </div>
+                    <div className="text-white text-sm">
+                      <p>Hello, {currentUser.firstName}</p>
+                      <button
+                        onClick={handleLogout}
+                        className="text-red-300 hover:text-red-100 text-xs"
+                      >
+                        Sign Out
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <a href="/login" className="text-gray-400 hover:text-white transition-colors duration-200">
+                    <UserIcon className="w-6 h-6" />
+                  </a>
+                )}
                 <a href="#" className="text-gray-400 hover:text-white transition-colors duration-200">
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />

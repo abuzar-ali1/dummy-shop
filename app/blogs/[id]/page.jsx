@@ -1,4 +1,3 @@
-import { notFound } from 'next/navigation';
 import { blogPosts } from '../../../data/blogs';
 import BlogDetail from '@/app/ui/Components/BlogDetail';
 
@@ -8,14 +7,10 @@ export async function generateStaticParams() {
   }));
 }
 
-export default function Blog({ params }) {
-  const blog = blogPosts.find(post => post.id === parseInt(params.id));
-
-  if (!blog) {
-    notFound();
-  }
+export default function Blog() {
+ 
 
   return (
-   <BlogDetail blog={blog} blogPosts={blogPosts}/>
+   <BlogDetail blogPosts={blogPosts}/>
   );
 }
