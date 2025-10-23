@@ -8,8 +8,10 @@ import {
   ChevronRightIcon,
   ArrowRightIcon
 } from '@heroicons/react/24/outline';
+import { useComingSoon } from "../hooks/useComingSoon";
 
 const Footer = () => {
+  const {handleComingSoon} = useComingSoon();
   const footerVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
@@ -62,6 +64,7 @@ const Footer = () => {
                 <motion.a
                   key={social}
                   href="#"
+                   onClick={handleComingSoon}
                   className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-cyan-600 transition-colors duration-300"
                   whileHover={{ scale: 1.1, rotate: 5 }}
                   whileTap={{ scale: 0.95 }}
@@ -80,6 +83,7 @@ const Footer = () => {
                 <motion.li key={link} whileHover={{ x: 5 }}>
                   <a 
                     href="#" 
+                     onClick={handleComingSoon}
                     className="text-gray-400 hover:text-white transition-colors duration-300 flex items-center group"
                   >
                     <ChevronRightIcon className="w-3 h-3 mr-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -98,6 +102,7 @@ const Footer = () => {
                 <motion.li key={link} whileHover={{ x: 5 }}>
                   <a 
                     href="#" 
+                    onClick={handleComingSoon}
                     className="text-gray-400 hover:text-white transition-colors duration-300 flex items-center group"
                   >
                     <ChevronRightIcon className="w-3 h-3 mr-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -127,11 +132,12 @@ const Footer = () => {
                   type="email"
                   placeholder="Enter your email"
                   className="w-full bg-gray-800 border border-gray-700 rounded-lg pl-10 pr-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300"
-                />
+                  />
               </div>
               
               <motion.button
                 type="submit"
+                onClick={handleComingSoon}
                 className="w-full bg-cyan-600 hover:bg-cyan-700 text-white py-3 px-4 rounded-lg font-medium transition-colors duration-300 flex items-center justify-center group"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
@@ -179,6 +185,7 @@ const Footer = () => {
                 <motion.a
                   key={item}
                   href="#"
+                  onClick={handleComingSoon}
                   className="text-gray-400 hover:text-white transition-colors duration-300"
                   whileHover={{ scale: 1.05 }}
                 >

@@ -10,8 +10,10 @@ import {
   GiftIcon
 } from '@heroicons/react/24/outline';
 import FillHoverButton from './FillHoverButton';
+import { useComingSoon } from '../hooks/useComingSoon';
 
 const WhyChooseUs = () => {
+  const {handleComingSoon} = useComingSoon;
   const features = [
     {
       icon: TruckIcon,
@@ -181,6 +183,7 @@ const WhyChooseUs = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <motion.button
+              onClick={handleComingSoon}
                 className="bg-gray-900 text-white px-8 py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors duration-300"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}

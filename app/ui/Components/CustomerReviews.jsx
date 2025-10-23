@@ -228,6 +228,7 @@ const CustomerReviews = () => {
           {/* Carousel Controls */}
           <div className="flex items-center justify-center mt-8 space-x-4">
             <motion.button
+            
               onClick={prevReview}
               className="w-12 h-12 bg-white border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors duration-200"
               whileHover={{ scale: 1.1 }}

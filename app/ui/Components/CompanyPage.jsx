@@ -9,8 +9,10 @@ import {
   EnvelopeIcon,
   PhoneIcon
 } from '@heroicons/react/24/outline';
+import { useComingSoon } from '../hooks/useComingSoon';
 
 const CompanyPage = () => {
+  const {handleComingSoon} = useComingSoon();
   // Company values data
   const values = [
     {
@@ -214,6 +216,7 @@ const CompanyPage = () => {
             </div>
 
             <motion.button
+            onClick={handleComingSoon}
               className="bg-cyan-500 hover:bg-cyan-600 text-white px-8 py-3 rounded-lg font-semibold transition-colors duration-300"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}

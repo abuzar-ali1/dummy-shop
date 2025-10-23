@@ -6,6 +6,7 @@ import {
   UserGroupIcon,
   SparklesIcon
 } from '@heroicons/react/24/outline';
+import { useComingSoon } from '../hooks/useComingSoon';
 
 const OurTeam = () => {
   const teamMembers = [
@@ -92,6 +93,7 @@ const OurTeam = () => {
       }
     }
   };
+  const {handleComingSoon} = useComingSoon();
 
   const cardVariants = {
     hidden: { 
@@ -319,6 +321,7 @@ const OurTeam = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <motion.button
+            onClick={handleComingSoon}
               className="bg-white text-cyan-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-300"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -326,6 +329,7 @@ const OurTeam = () => {
               View Open Positions
             </motion.button>
             <motion.button
+            onClick={handleComingSoon}
               className="border border-white/30 text-white px-8 py-3 rounded-lg font-semibold hover:bg-white/10 transition-colors duration-300"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
