@@ -15,7 +15,7 @@ const OurTeam = () => {
       name: "Sarah Chen",
       position: "Founder & CEO",
       description: "Former fashion director with 15+ years in retail industry. Passionate about sustainable fashion and customer experience.",
-      image: "/team/sarah-chen.jpg",
+      image: "/images/ Sarahchen .png",
       email: "sarah@dummyshop.com",
       phone: "+1 (555) 010-1001",
       department: "Leadership",
@@ -27,7 +27,7 @@ const OurTeam = () => {
       name: "Marcus Rodriguez",
       position: "Head of Design",
       description: "Award-winning product designer focused on creating functional yet beautiful everyday essentials.",
-      image: "/team/marcus-rodriguez.jpg",
+      image: "/images/MarcusRodriguez.png",
       email: "marcus@dummyshop.com",
       phone: "+1 (555) 010-1002",
       department: "Design",
@@ -39,7 +39,7 @@ const OurTeam = () => {
       name: "Dr. Elena Petrova",
       position: "Sustainability Director",
       description: "PhD in Environmental Science. Leads our sustainability initiatives and ethical sourcing practices.",
-      image: "/team/elena-petrova.jpg",
+      image: "/images/Dr.ElenaPetrova.png",
       email: "elena@dummyshop.com",
       phone: "+1 (555) 010-1003",
       department: "Sustainability",
@@ -51,7 +51,7 @@ const OurTeam = () => {
       name: "James Kim",
       position: "Head of Customer Experience",
       description: "Dedicated to creating exceptional shopping experiences and building lasting customer relationships.",
-      image: "/team/james-kim.jpg",
+      image: "/images/JamesKim.png",
       email: "james@dummyshop.com",
       phone: "+1 (555) 010-1004",
       department: "Customer Service",
@@ -63,7 +63,7 @@ const OurTeam = () => {
       name: "Olivia Parker",
       position: "Creative Director",
       description: "Visionary creative lead shaping our brand identity and visual storytelling across all platforms.",
-      image: "/team/olivia-parker.jpg",
+      image: "/images/ OliviaParker.png",
       email: "olivia@dummyshop.com",
       phone: "+1 (555) 010-1005",
       department: "Marketing",
@@ -75,7 +75,7 @@ const OurTeam = () => {
       name: "David Thompson",
       position: "Operations Manager",
       description: "Ensures seamless operations from inventory management to fast, reliable order fulfillment.",
-      image: "/team/david-thompson.jpg",
+      image: "/images/DavidThompson.png",
       email: "david@dummyshop.com",
       phone: "+1 (555) 010-1006",
       department: "Operations",
@@ -119,23 +119,6 @@ const OurTeam = () => {
     }
   };
 
-  const imageVariants = {
-    hidden: { scale: 1.1, opacity: 0 },
-    visible: {
-      scale: 1,
-      opacity: 1,
-      transition: {
-        duration: 0.8,
-        ease: "easeOut"
-      }
-    },
-    hover: {
-      scale: 1.05,
-      transition: {
-        duration: 0.4
-      }
-    }
-  };
 
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
@@ -180,16 +163,10 @@ const OurTeam = () => {
               {/* Image Container */}
               <div className="relative h-80 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
                 <motion.div
-                  variants={imageVariants}
                   className="w-full h-full flex items-center justify-center"
                 >
                   {/* Placeholder for team member image */}
-                  <div className="text-center">
-                    <div className="w-24 h-24 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">
-                      {member.name.split(' ').map(n => n[0]).join('')}
-                    </div>
-                    <span className="text-sm text-gray-600 font-medium">Team Photo</span>
-                  </div>
+                  <img src={member.image} alt="Member image" />
                 </motion.div>
                 
                 {/* Department Badge */}

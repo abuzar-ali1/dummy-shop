@@ -1,10 +1,9 @@
 "use cleint";
 
 import React from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import ProductCard from "./ProductCard";
 
-/* ---------- tiny sample data (replace with your API/dataset) ---------- */
 const products = [
   {
     id: 1,
@@ -72,50 +71,10 @@ const products = [
   },
 ];
 
-/* ---------- animation variants ---------- */
 const gridVariants = {
   hidden: {},
   show: { transition: { staggerChildren: 0.06 } },
 };
-const cardVariants = {
-  hidden: { opacity: 0, y: 10 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.48, ease: "easeOut" } },
-};
-
-/* ---------- Button fill variants (secondary button) ---------- */
-const bgVariants = {
-  rest: { x: "100%" },
-  hover: { x: "0%", transition: { duration: 0.36, ease: "easeOut" } },
-};
-const textVariants = {
-  rest: { color: "#374151" },
-  hover: { color: "#ffffff", transition: { duration: 0.22, ease: "easeOut" } },
-};
-
-/* ---------- Animated product image (gentle float) ---------- */
-function AnimatedImage({ src, alt, className = "" }) {
-  const reduce = useReducedMotion();
-  return (
-    <motion.img
-      src={src}
-      alt={alt}
-      className={className}
-      draggable={false}
-      initial={{ y: 0 }}
-      animate={reduce ? {} : { y: [0, -8, 0] }}
-      transition={
-        reduce
-          ? {}
-          : {
-              duration: 4,
-              repeat: Infinity,
-              repeatType: "reverse",
-              ease: "easeInOut",
-            }
-      }
-    />
-  );
-}
 
  function NewArrivals() {
   return (

@@ -80,7 +80,7 @@ export const blogPosts = [
       <h2>Pro Tips for WFH Dressing</h2>
       <p>Invest in pieces that are both comfortable and presentable. Our Urban Hoodie and comfortable pants are perfect for those video calls where you need to look professional without sacrificing comfort.</p>
     `,
-      image: "images/download.jpeg",
+    image: "/images/download.jpeg",
     category: "Lifestyle",
     readTime: "5 min read",
     date: "Oct 8, 2025",

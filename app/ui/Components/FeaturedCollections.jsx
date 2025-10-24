@@ -2,6 +2,7 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
+import { useComingSoon } from "../hooks/useComingSoon";
 
 const collections = [
   { id: 1, title: "Totes & Bags", subtitle: "Everyday carry", img: "/images/bags.png" },
@@ -11,6 +12,7 @@ const collections = [
 ];
 
 export default function FeaturedCollections() {
+  const {handleComingSoon} = useComingSoon();
   return (
     <section className="bg-white py-14">
       <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
@@ -25,7 +27,8 @@ export default function FeaturedCollections() {
           {collections.map((c, i) => (
             <motion.a
               key={c.id}
-              href={`/collections/${c.title.toLowerCase().replace(/\s+/g, "-")}`}
+              href="#"
+              onClick={handleComingSoon}
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.08, duration: 0.45, ease: "easeOut" }}
@@ -33,7 +36,6 @@ export default function FeaturedCollections() {
               aria-label={`Open ${c.title} collection`}
             >
               <div className="relative h-44 sm:h-52 md:h-44 lg:h-48">
-                {/* use plain <img> or next/image if in Next.js and images are in /public */}
                 <img
                   src={c.img}
                   alt={c.title}
