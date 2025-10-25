@@ -84,14 +84,19 @@ const callsToAction = [
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [cartItemsCount, setCartItemsCount] = useState(0);
 
-  const {handleComingSoon } = useComingSoon();
+  const { handleComingSoon } = useComingSoon();
   const { currentUser, logout } = useAuth();
 
-  const handleLogout = () => {
-    logout(); // This updates context AND localStorage
-  };
+  // Sample cart count - replace with your actual cart state
+  useEffect(() => {
+    setCartItemsCount(2); // This would come from your cart context
+  }, []);
 
+  const handleLogout = () => {
+    logout();
+  };
 
   const getUserInitial = () => {
     if (!currentUser?.firstName) return 'U';
@@ -104,7 +109,59 @@ export default function Header() {
         aria-label="Global"
         className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
       >
-        <div className="flex lg:flex-1">
+        {/* Mobile Icons - Left Side */}
+        <div className="flex lg:hidden items-center space-x-4">
+          {/* User Icon */}
+          {currentUser ? (
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-8 h-8 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center text-white font-semibold text-sm cursor-pointer"
+            >
+              {getUserInitial()}
+            </motion.div>
+          ) : (
+            <motion.a
+              href="/login"
+              className="text-gray-400 hover:text-white transition-colors duration-200"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <UserIcon className="size-6" />
+            </motion.a>
+          )}
+
+          {/* Cart Icon */}
+          <motion.button
+            onClick={() => setIsCartOpen(true)}
+            className="text-gray-400 hover:text-white transition-colors duration-200 relative"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+              />
+            </svg>
+            {cartItemsCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-cyan-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold">
+                {cartItemsCount}
+              </span>
+            )}
+          </motion.button>
+        </div>
+
+        {/* Logo - Center on mobile, left on desktop */}
+        <div className="flex lg:flex-1 justify-center lg:justify-start">
           <Link href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">DummyShop</span>
             <motion.div
@@ -118,16 +175,8 @@ export default function Header() {
             </motion.div>
           </Link>
         </div>
-        <div className="flex lg:hidden">
-          <button
-            type="button"
-            onClick={() => setMobileMenuOpen(true)}
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-400 hover:text-white transition-colors duration-200"
-          >
-            <span className="sr-only">Open main menu</span>
-            <Bars3Icon aria-hidden="true" className="size-6" />
-          </button>
-        </div>
+
+        {/* Desktop Navigation */}
         <PopoverGroup className="hidden lg:flex lg:gap-x-12">
           <Link href="/products" className="text-sm/6 font-semibold text-white hover:text-cyan-300 transition-colors duration-200">
             Products
@@ -201,6 +250,8 @@ export default function Header() {
             </PopoverPanel>
           </Popover>
         </PopoverGroup>
+
+        {/* Desktop Icons - Right Side */}
         <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:space-x-4 lg:items-center">
           {/* User Profile or Login Icon */}
           {currentUser ? (
@@ -278,11 +329,9 @@ export default function Header() {
           )}
 
           {/* Cart Icon */}
-          <motion.a
-            href="#"
+          <motion.button
             onClick={() => setIsCartOpen(true)}
-
-            className="text-gray-400 hover:text-white transition-colors duration-200"
+            className="text-gray-400 hover:text-white transition-colors duration-200 relative"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -300,12 +349,16 @@ export default function Header() {
                 d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
               />
             </svg>
-          </motion.a>
+            {cartItemsCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-cyan-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold">
+                {cartItemsCount}
+              </span>
+            )}
+          </motion.button>
 
           {/* Wishlist Icon */}
-          <motion.a
-            href="#"
-             onClick={handleComingSoon}
+          <motion.button
+            onClick={handleComingSoon}
             className="text-gray-400 hover:text-white transition-colors duration-200"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
@@ -324,9 +377,23 @@ export default function Header() {
                 d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
               />
             </svg>
-          </motion.a>
+          </motion.button>
+        </div>
+
+        {/* Mobile Menu Button - Right Side */}
+        <div className="flex lg:hidden">
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen(true)}
+            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-400 hover:text-white transition-colors duration-200"
+          >
+            <span className="sr-only">Open main menu</span>
+            <Bars3Icon aria-hidden="true" className="size-6" />
+          </button>
         </div>
       </nav>
+
+      {/* Mobile Menu Dialog */}
       <Dialog
         open={mobileMenuOpen}
         onClose={setMobileMenuOpen}
@@ -364,7 +431,8 @@ export default function Header() {
                       <DisclosureButton
                         key={item.name}
                         as="a"
-                        href={item.href}
+                        href="#"
+                        onClick={handleComingSoon}
                         className="block rounded-lg py-2 pr-3 pl-6 text-sm/7 font-semibold text-white hover:bg-gray-800 transition-colors duration-200 flex items-center space-x-3 border border-transparent hover:border-cyan-500/20"
                       >
                         <div className={`w-8 h-8 rounded-lg bg-gradient-to-r ${item.color} flex items-center justify-center shadow-lg`}>
@@ -424,24 +492,28 @@ export default function Header() {
                     <UserIcon className="w-6 h-6" />
                   </a>
                 )}
-                <a  onClick={() => setIsCartOpen(true)}
-                   href="#" className="text-gray-400 hover:text-white transition-colors duration-200">
+                <button onClick={() => setIsCartOpen(true)} className="text-gray-400 hover:text-white transition-colors duration-200 relative">
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
                   </svg>
-                </a>
-                <a href="#"  onClick={handleComingSoon} className="text-gray-400 hover:text-white transition-colors duration-200">
+                  {cartItemsCount > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-cyan-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center font-semibold">
+                      {cartItemsCount}
+                    </span>
+                  )}
+                </button>
+                <button onClick={handleComingSoon} className="text-gray-400 hover:text-white transition-colors duration-200">
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
                   </svg>
-                </a>
+                </button>
               </div>
             </div>
           </div>
         </DialogPanel>
       </Dialog>
 
-        {/* Cart Sidebar */}
+      {/* Cart Sidebar */}
       <CartSidebar 
         isOpen={isCartOpen} 
         onClose={() => setIsCartOpen(false)} 
