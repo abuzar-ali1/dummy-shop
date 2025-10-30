@@ -1,4 +1,5 @@
 'use client';
+import { isHTMLElement } from 'framer-motion';
 import { createContext, useState, useContext, useEffect } from 'react';
 
 const AuthContext = createContext();
