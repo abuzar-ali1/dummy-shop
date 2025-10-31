@@ -37,10 +37,6 @@ export default function RootLayout({ children }) {
             <Footer />
             </ToastProvider>
         </AuthProvider>
-
-
-        {/* <ClientApp>{children}</ClientApp> */}
-     
       </body>
     </html>
   );
