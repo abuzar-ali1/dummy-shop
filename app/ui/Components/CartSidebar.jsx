@@ -1,7 +1,7 @@
 "use client";
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 import "../../globals.css";
-import Link from 'next/link';
+import Link from "next/link";
 import { useState, useEffect } from "react";
 import {
   Dialog,
@@ -23,15 +23,12 @@ import {
   TruckIcon,
   ShieldCheckIcon,
   UserIcon,
-  ArrowRightOnRectangleIcon
+  ArrowRightOnRectangleIcon,
 } from "@heroicons/react/24/outline";
-import {
-  ChevronDownIcon,
-  PhoneIcon,
-} from "@heroicons/react/20/solid";
-import { useAuth } from '@/app/context/AuthContext';
-import { useComingSoon } from '../hooks/useComingSoon';
-import CartSidebar from './CartSidebar';
+import { ChevronDownIcon, PhoneIcon } from "@heroicons/react/20/solid";
+import { useAuth } from "@/app/context/AuthContext";
+import { useComingSoon } from "../hooks/useComingSoon";
+import CartSidebar from "./CartSidebar";
 
 const products = [
   {
@@ -40,7 +37,7 @@ const products = [
     href: "/products?filter=new",
     icon: SparklesIcon,
     color: "from-cyan-500 to-blue-500",
-    badge: "Just Launched"
+    badge: "Just Launched",
   },
   {
     name: "Best Sellers",
@@ -48,7 +45,7 @@ const products = [
     href: "/products?filter=bestsellers",
     icon: StarIcon,
     color: "from-amber-500 to-orange-500",
-    badge: "Popular"
+    badge: "Popular",
   },
   {
     name: "Sustainable Collection",
@@ -56,7 +53,7 @@ const products = [
     href: "/products?filter=sustainable",
     icon: ShieldCheckIcon,
     color: "from-green-500 to-emerald-500",
-    badge: "Eco"
+    badge: "Eco",
   },
   {
     name: "Accessories",
@@ -64,7 +61,7 @@ const products = [
     href: "/products?filter=accessories",
     icon: ShoppingBagIcon,
     color: "from-purple-500 to-pink-500",
-    badge: "Style"
+    badge: "Style",
   },
   {
     name: "Fast Shipping",
@@ -72,8 +69,8 @@ const products = [
     href: "/shipping",
     icon: TruckIcon,
     color: "from-blue-500 to-cyan-500",
-    badge: "Free"
-  }
+    badge: "Free",
+  },
 ];
 
 const callsToAction = [
@@ -99,7 +96,7 @@ export default function Header() {
   };
 
   const getUserInitial = () => {
-    if (!currentUser?.firstName) return 'U';
+    if (!currentUser?.firstName) return "U";
     return currentUser.firstName.charAt(0).toUpperCase();
   };
 
@@ -178,13 +175,23 @@ export default function Header() {
 
         {/* Desktop Navigation */}
         <PopoverGroup className="hidden lg:flex lg:gap-x-12">
-          <Link href="/products" className="text-sm/6 font-semibold text-white hover:text-cyan-300 transition-colors duration-200">
+          <Link
+            href="/products"
+            className="text-sm/6 font-semibold text-white hover:text-cyan-300 transition-colors duration-200"
+          >
             Products
           </Link>
-          <a onClick={handleComingSoon} href="#" className="text-sm/6 font-semibold text-white hover:text-cyan-300 transition-colors duration-200">
+          <a
+            onClick={handleComingSoon}
+            href="#"
+            className="text-sm/6 font-semibold text-white hover:text-cyan-300 transition-colors duration-200"
+          >
             Marketplace
           </a>
-          <Link href="/company" className="text-sm/6 font-semibold text-white hover:text-cyan-300 transition-colors duration-200">
+          <Link
+            href="/company"
+            className="text-sm/6 font-semibold text-white hover:text-cyan-300 transition-colors duration-200"
+          >
             Company
           </Link>
           <Popover className="relative">
@@ -216,17 +223,28 @@ export default function Header() {
                       className="group -m-3 flex items-start rounded-lg p-3 hover:bg-gray-700/50 transition-all duration-200 border border-transparent hover:border-cyan-500/20"
                       whileHover={{ x: 5 }}
                     >
-                      <div className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-gradient-to-r ${item.color} shadow-lg`}>
-                        <item.icon className="h-6 w-6 text-white" aria-hidden="true" />
+                      <div
+                        className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-gradient-to-r ${item.color} shadow-lg`}
+                      >
+                        <item.icon
+                          className="h-6 w-6 text-white"
+                          aria-hidden="true"
+                        />
                       </div>
                       <div className="ml-4">
                         <div className="flex items-center space-x-2">
-                          <p className="text-sm font-medium text-white">{item.name}</p>
-                          <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r ${item.color} text-white shadow-sm`}>
+                          <p className="text-sm font-medium text-white">
+                            {item.name}
+                          </p>
+                          <span
+                            className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r ${item.color} text-white shadow-sm`}
+                          >
                             {item.badge}
                           </span>
                         </div>
-                        <p className="mt-1 text-sm text-gray-300">{item.description}</p>
+                        <p className="mt-1 text-sm text-gray-300">
+                          {item.description}
+                        </p>
                       </div>
                     </motion.a>
                   ))}
@@ -240,7 +258,10 @@ export default function Header() {
                         className="flex items-center text-sm font-medium text-white hover:text-cyan-300 transition-colors duration-200 group"
                         whileHover={{ scale: 1.05 }}
                       >
-                        <item.icon className="h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-cyan-300 mr-2 transition-colors duration-200" aria-hidden="true" />
+                        <item.icon
+                          className="h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-cyan-300 mr-2 transition-colors duration-200"
+                          aria-hidden="true"
+                        />
                         {item.name}
                       </motion.a>
                     ))}
@@ -428,26 +449,31 @@ export default function Header() {
                   </DisclosureButton>
                   <DisclosurePanel className="mt-2 space-y-2">
                     {products.map((item) => (
-                      <DisclosureButton
+                      <a // ← Change DisclosureButton to regular <a> tag
                         key={item.name}
-                        as="a"
                         href="#"
                         onClick={handleComingSoon}
                         className="block rounded-lg py-2 pr-3 pl-6 text-sm/7 font-semibold text-white hover:bg-gray-800 transition-colors duration-200 flex items-center space-x-3 border border-transparent hover:border-cyan-500/20"
                       >
-                        <div className={`w-8 h-8 rounded-lg bg-gradient-to-r ${item.color} flex items-center justify-center shadow-lg`}>
+                        <div
+                          className={`w-8 h-8 rounded-lg bg-gradient-to-r ${item.color} flex items-center justify-center shadow-lg`}
+                        >
                           <item.icon className="w-4 h-4 text-white" />
                         </div>
                         <div>
                           <div className="flex items-center space-x-2">
                             <span>{item.name}</span>
-                            <span className={`text-xs px-1.5 py-0.5 rounded bg-gradient-to-r ${item.color} text-white`}>
+                            <span
+                              className={`text-xs px-1.5 py-0.5 rounded bg-gradient-to-r ${item.color} text-white`}
+                            >
                               {item.badge}
                             </span>
                           </div>
-                          <p className="text-xs text-gray-300 mt-1">{item.description}</p>
+                          <p className="text-xs text-gray-300 mt-1">
+                            {item.description}
+                          </p>
                         </div>
-                      </DisclosureButton>
+                      </a> // ← Close with </a> instead of </DisclosureButton>
                     ))}
                   </DisclosurePanel>
                 </Disclosure>
@@ -488,13 +514,29 @@ export default function Header() {
                     </div>
                   </div>
                 ) : (
-                  <a href="/login" className="text-gray-400 hover:text-white transition-colors duration-200">
+                  <a
+                    href="/login"
+                    className="text-gray-400 hover:text-white transition-colors duration-200"
+                  >
                     <UserIcon className="w-6 h-6" />
                   </a>
                 )}
-                <button onClick={() => setIsCartOpen(true)} className="text-gray-400 hover:text-white transition-colors duration-200 relative">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                <button
+                  onClick={() => setIsCartOpen(true)}
+                  className="text-gray-400 hover:text-white transition-colors duration-200 relative"
+                >
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="1.5"
+                      d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+                    />
                   </svg>
                   {cartItemsCount > 0 && (
                     <span className="absolute -top-1 -right-1 bg-cyan-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center font-semibold">
@@ -502,9 +544,22 @@ export default function Header() {
                     </span>
                   )}
                 </button>
-                <button onClick={handleComingSoon} className="text-gray-400 hover:text-white transition-colors duration-200">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                <button
+                  onClick={handleComingSoon}
+                  className="text-gray-400 hover:text-white transition-colors duration-200"
+                >
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="1.5"
+                      d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+                    />
                   </svg>
                 </button>
               </div>
@@ -514,10 +569,7 @@ export default function Header() {
       </Dialog>
 
       {/* Cart Sidebar */}
-      <CartSidebar 
-        isOpen={isCartOpen} 
-        onClose={() => setIsCartOpen(false)} 
-      />
+      <CartSidebar isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </header>
   );
 }
