@@ -1,575 +1,296 @@
 "use client";
-import { motion } from "framer-motion";
-import "../../globals.css";
-import Link from "next/link";
-import { useState, useEffect } from "react";
-import {
-  Dialog,
-  DialogPanel,
-  Disclosure,
-  DisclosureButton,
-  DisclosurePanel,
-  Popover,
-  PopoverButton,
-  PopoverGroup,
-  PopoverPanel,
-} from "@headlessui/react";
-import {
-  Bars3Icon,
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
   XMarkIcon,
-  SparklesIcon,
-  StarIcon,
   ShoppingBagIcon,
-  TruckIcon,
-  ShieldCheckIcon,
-  UserIcon,
-  ArrowRightOnRectangleIcon,
-} from "@heroicons/react/24/outline";
-import { ChevronDownIcon, PhoneIcon } from "@heroicons/react/20/solid";
-import { useAuth } from "@/app/context/AuthContext";
-import { useComingSoon } from "../hooks/useComingSoon";
-import CartSidebar from "./CartSidebar";
+  TrashIcon,
+  PlusIcon,
+  MinusIcon,
+  ArrowRightIcon
+} from '@heroicons/react/24/outline';
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
-const products = [
-  {
-    name: "New Arrivals",
-    description: "Fresh styles updated weekly with fast delivery",
-    href: "/products?filter=new",
-    icon: SparklesIcon,
-    color: "from-cyan-500 to-blue-500",
-    badge: "Just Launched",
-  },
-  {
-    name: "Best Sellers",
-    description: "Top picks loved by thousands of customers",
-    href: "/products?filter=bestsellers",
-    icon: StarIcon,
-    color: "from-amber-500 to-orange-500",
-    badge: "Popular",
-  },
-  {
-    name: "Sustainable Collection",
-    description: "Eco-friendly products for conscious living",
-    href: "/products?filter=sustainable",
-    icon: ShieldCheckIcon,
-    color: "from-green-500 to-emerald-500",
-    badge: "Eco",
-  },
-  {
-    name: "Accessories",
-    description: "Complete your look with our premium accessories",
-    href: "/products?filter=accessories",
-    icon: ShoppingBagIcon,
-    color: "from-purple-500 to-pink-500",
-    badge: "Style",
-  },
-  {
-    name: "Fast Shipping",
-    description: "Free 2-day delivery on orders over $50",
-    href: "/shipping",
-    icon: TruckIcon,
-    color: "from-blue-500 to-cyan-500",
-    badge: "Free",
-  },
-];
+const CartSidebar = ({ isOpen, onClose }) => {
+  const [cartItems, setCartItems] = useState([]);
 
-const callsToAction = [
-  { name: "Shop All Products", href: "/products", icon: ShoppingBagIcon },
-  { name: "Contact Support", href: "/contact", icon: PhoneIcon },
-];
-
-export default function Header() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [cartItemsCount, setCartItemsCount] = useState(0);
-
-  const { handleComingSoon } = useComingSoon();
-  const { currentUser, logout } = useAuth();
-
-  // Sample cart count - replace with your actual cart state
+  // Sample cart data - replace with your actual cart state
   useEffect(() => {
-    setCartItemsCount(2); // This would come from your cart context
-  }, []);
+    const sampleCart = [
+      {
+        id: 1,
+        name: "Everyday Tote",
+        price: 49,
+        image: "/images/purse.png",
+        quantity: 2,
+        color: "Dark Gray",
+        size: "M"
+      },
+      {
+        id: 2,
+        name: "Runner Shoe",
+        price: 89,
+        image: "/images/shoes.png",
+        quantity: 1,
+        color: "Black",
+        size: "42"
+      }
+    ];
+    setCartItems(sampleCart);
+  }, [isOpen]);
 
-  const handleLogout = () => {
-    logout();
+  const updateQuantity = (id, newQuantity) => {
+    if (newQuantity < 1) return;
+    setCartItems(prev => 
+      prev.map(item => 
+        item.id === id ? { ...item, quantity: newQuantity } : item
+      )
+    );
   };
 
-  const getUserInitial = () => {
-    if (!currentUser?.firstName) return "U";
-    return currentUser.firstName.charAt(0).toUpperCase();
+  const removeItem = (id) => {
+    setCartItems(prev => prev.filter(item => item.id !== id));
   };
+
+  const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const shipping = subtotal > 50 ? 0 : 5.99;
+  const total = subtotal + shipping;
 
   return (
-    <header className="bg-gray-900 fixed top-0 left-0 right-0 z-50 backdrop-blur-sm shadow-sm transition-colors duration-300">
-      <nav
-        aria-label="Global"
-        className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
-      >
-        {/* Mobile Icons - Left Side */}
-        <div className="flex lg:hidden items-center space-x-4">
-          {/* User Icon */}
-          {currentUser ? (
-            <motion.div
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-8 h-8 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center text-white font-semibold text-sm cursor-pointer"
-            >
-              {getUserInitial()}
-            </motion.div>
-          ) : (
-            <motion.a
-              href="/login"
-              className="text-gray-400 hover:text-white transition-colors duration-200"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <UserIcon className="size-6" />
-            </motion.a>
-          )}
-
-          {/* Cart Icon */}
-          <motion.button
-            onClick={() => setIsCartOpen(true)}
-            className="text-gray-400 hover:text-white transition-colors duration-200 relative"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          {/* Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50"
+            onClick={onClose}
+          />
+          
+          {/* Sidebar */}
+          <motion.div
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+            className="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl z-50 flex flex-col"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
-              />
-            </svg>
-            {cartItemsCount > 0 && (
-              <span className="absolute -top-2 -right-2 bg-cyan-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold">
-                {cartItemsCount}
-              </span>
-            )}
-          </motion.button>
-        </div>
-
-        {/* Logo - Center on mobile, left on desktop */}
-        <div className="flex lg:flex-1 justify-center lg:justify-start">
-          <Link href="/" className="-m-1.5 p-1.5">
-            <span className="sr-only">DummyShop</span>
-            <motion.div
-              className="font-us text-white text-2xl font-bold"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              whileHover={{ scale: 1.05 }}
-            >
-              DummyShop
-            </motion.div>
-          </Link>
-        </div>
-
-        {/* Desktop Navigation */}
-        <PopoverGroup className="hidden lg:flex lg:gap-x-12">
-          <Link
-            href="/products"
-            className="text-sm/6 font-semibold text-white hover:text-cyan-300 transition-colors duration-200"
-          >
-            Products
-          </Link>
-          <a
-            onClick={handleComingSoon}
-            href="#"
-            className="text-sm/6 font-semibold text-white hover:text-cyan-300 transition-colors duration-200"
-          >
-            Marketplace
-          </a>
-          <Link
-            href="/company"
-            className="text-sm/6 font-semibold text-white hover:text-cyan-300 transition-colors duration-200"
-          >
-            Company
-          </Link>
-          <Popover className="relative">
-            <PopoverButton className="flex items-center gap-x-1 text-sm/6 font-semibold text-white hover:text-cyan-300 transition-colors duration-200 outline-none">
-              Features
-              <ChevronDownIcon
-                aria-hidden="true"
-                className="size-4 flex-none text-gray-400 group-hover:text-cyan-300 transition-colors duration-200"
-              />
-            </PopoverButton>
-
-            <PopoverPanel
-              transition
-              className="absolute left-1/2 z-10 mt-5 w-screen max-w-lg -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-3xl"
-            >
-              <motion.div
-                initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                transition={{ duration: 0.2 }}
-                className="overflow-hidden rounded-2xl bg-gray-800 shadow-xl ring-1 ring-cyan-500/20"
+            
+            {/* Header */}
+            <div className="flex items-center justify-between p-6 border-b border-gray-200">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-cyan-100 rounded-xl flex items-center justify-center">
+                  <ShoppingBagIcon className="w-5 h-5 text-cyan-600" />
+                </div>
+                <div>
+                  <h2 className="text-xl font-bold text-gray-900">Your Cart</h2>
+                  <p className="text-sm text-gray-500">
+                    {cartItems.length} {cartItems.length === 1 ? 'item' : 'items'}
+                  </p>
+                </div>
+              </div>
+              
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={onClose}
+                className="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center text-gray-600 hover:text-gray-800 transition-colors"
               >
-                <div className="relative grid gap-6 bg-gray-800 p-6 lg:grid-cols-2">
-                  {products.map((item) => (
-                    <motion.a
-                      key={item.name}
-                      href="#"
-                      onClick={handleComingSoon}
-                      className="group -m-3 flex items-start rounded-lg p-3 hover:bg-gray-700/50 transition-all duration-200 border border-transparent hover:border-cyan-500/20"
-                      whileHover={{ x: 5 }}
+                <XMarkIcon className="w-5 h-5" />
+              </motion.button>
+            </div>
+
+            {/* Cart Items */}
+            <div className="flex-1 overflow-y-auto p-6">
+              {cartItems.length === 0 ? (
+                <div className="text-center py-12">
+                  <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <ShoppingBagIcon className="w-8 h-8 text-gray-400" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Your cart is empty</h3>
+                  <p className="text-gray-500 mb-6">Start shopping to add items to your cart</p>
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={onClose}
+                    className="bg-cyan-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-cyan-700 transition-colors"
+                  >
+                    Continue Shopping
+                  </motion.button>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {cartItems.map((item) => (
+                    <motion.div
+                      key={item.id}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="flex space-x-4 bg-white rounded-2xl border border-gray-200 p-4 hover:shadow-lg transition-shadow"
                     >
-                      <div
-                        className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-gradient-to-r ${item.color} shadow-lg`}
-                      >
-                        <item.icon
-                          className="h-6 w-6 text-white"
-                          aria-hidden="true"
+                      {/* Product Image */}
+                      <div className="flex-shrink-0 w-20 h-20 bg-gray-100 rounded-xl flex items-center justify-center">
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          className="w-16 h-16 object-contain"
                         />
                       </div>
-                      <div className="ml-4">
-                        <div className="flex items-center space-x-2">
-                          <p className="text-sm font-medium text-white">
-                            {item.name}
-                          </p>
-                          <span
-                            className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r ${item.color} text-white shadow-sm`}
-                          >
-                            {item.badge}
-                          </span>
-                        </div>
-                        <p className="mt-1 text-sm text-gray-300">
-                          {item.description}
+
+                      {/* Product Details */}
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-sm font-semibold text-gray-900 truncate">
+                          {item.name}
+                        </h3>
+                        <p className="text-sm text-gray-500 mt-1">
+                          {item.color} • {item.size}
                         </p>
+                        <p className="text-lg font-bold text-gray-900 mt-2">
+                          ${item.price}
+                        </p>
+
+                        {/* Quantity Controls */}
+                        <div className="flex items-center justify-between mt-3">
+                          <div className="flex items-center space-x-3">
+                            <motion.button
+                              whileHover={{ scale: 1.1 }}
+                              whileTap={{ scale: 0.9 }}
+                              onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                              className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center text-gray-600 hover:bg-gray-200 transition-colors"
+                            >
+                              <MinusIcon className="w-4 h-4" />
+                            </motion.button>
+                            <span className="w-8 text-center font-semibold text-gray-900">
+                              {item.quantity}
+                            </span>
+                            <motion.button
+                              whileHover={{ scale: 1.1 }}
+                              whileTap={{ scale: 0.9 }}
+                              onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                              className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center text-gray-600 hover:bg-gray-200 transition-colors"
+                            >
+                              <PlusIcon className="w-4 h-4" />
+                            </motion.button>
+                          </div>
+
+                          <motion.button
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                            onClick={() => removeItem(item.id)}
+                            className="w-8 h-8 bg-red-50 rounded-lg flex items-center justify-center text-red-600 hover:bg-red-100 transition-colors"
+                          >
+                            <TrashIcon className="w-4 h-4" />
+                          </motion.button>
+                        </div>
                       </div>
-                    </motion.a>
+                    </motion.div>
                   ))}
                 </div>
-                <div className="bg-gradient-to-r from-gray-700 to-gray-900 p-6 border-t border-gray-700">
-                  <div className="flex justify-between space-x-4">
-                    {callsToAction.map((item) => (
-                      <motion.a
-                        key={item.name}
-                        href={item.href}
-                        className="flex items-center text-sm font-medium text-white hover:text-cyan-300 transition-colors duration-200 group"
-                        whileHover={{ scale: 1.05 }}
-                      >
-                        <item.icon
-                          className="h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-cyan-300 mr-2 transition-colors duration-200"
-                          aria-hidden="true"
-                        />
-                        {item.name}
-                      </motion.a>
-                    ))}
+              )}
+            </div>
+
+            {/* Footer - Summary & Checkout */}
+            {cartItems.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="border-t border-gray-200 p-6 space-y-4"
+              >
+                {/* Summary */}
+                <div className="space-y-3">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600">Subtotal</span>
+                    <span className="font-semibold text-gray-900">${subtotal.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600">Shipping</span>
+                    <span className="font-semibold text-gray-900">
+                      {shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`}
+                    </span>
+                  </div>
+                  {subtotal < 50 && (
+                    <div className="text-xs text-cyan-600 bg-cyan-50 rounded-lg p-2">
+                      Add ${(50 - subtotal).toFixed(2)} more for free shipping!
+                    </div>
+                  )}
+                  <div className="flex justify-between text-lg font-bold border-t border-gray-200 pt-3">
+                    <span>Total</span>
+                    <span>${total.toFixed(2)}</span>
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="space-y-3">
+                  <Link href="/cart">
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={onClose}
+                      className="w-full bg-white border-2 border-cyan-600 text-cyan-600 py-3 rounded-xl font-semibold hover:bg-cyan-50 transition-colors flex items-center justify-center space-x-2"
+                    >
+                      <span>View Full Cart</span>
+                      <ArrowRightIcon className="w-4 h-4" />
+                    </motion.button>
+                  </Link>
+                  
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="w-full bg-gradient-to-r from-cyan-600 to-blue-600 text-white py-3 rounded-xl font-semibold hover:from-cyan-700 hover:to-blue-700 transition-all shadow-lg shadow-cyan-500/25"
+                  >
+                    Proceed to Checkout
+                  </motion.button>
+                </div>
+
+                {/* Trust Badges */}
+                <div className="grid grid-cols-3 gap-4 pt-4 border-t border-gray-200">
+                  <div className="text-center">
+                    <div className="w-8 h-8 bg-cyan-100 rounded-lg flex items-center justify-center mx-auto mb-1">
+                      <TruckIcon className="w-4 h-4 text-cyan-600" />
+                    </div>
+                    <p className="text-xs text-gray-600">Free Shipping</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="w-8 h-8 bg-cyan-100 rounded-lg flex items-center justify-center mx-auto mb-1">
+                      <ShieldCheckIcon className="w-4 h-4 text-cyan-600" />
+                    </div>
+                    <p className="text-xs text-gray-600">Secure Payment</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="w-8 h-8 bg-cyan-100 rounded-lg flex items-center justify-center mx-auto mb-1">
+                      <ArrowPathIcon className="w-4 h-4 text-cyan-600" />
+                    </div>
+                    <p className="text-xs text-gray-600">Easy Returns</p>
                   </div>
                 </div>
               </motion.div>
-            </PopoverPanel>
-          </Popover>
-        </PopoverGroup>
-
-        {/* Desktop Icons - Right Side */}
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:space-x-4 lg:items-center">
-          {/* User Profile or Login Icon */}
-          {currentUser ? (
-            <Popover className="relative">
-              <PopoverButton className="flex items-center gap-x-1 outline-none">
-                <motion.div
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="w-8 h-8 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center text-white font-semibold text-sm cursor-pointer"
-                >
-                  {getUserInitial()}
-                </motion.div>
-              </PopoverButton>
-
-              <PopoverPanel
-                transition
-                className="absolute right-0 z-10 mt-3 w-64 origin-top-right rounded-2xl bg-gray-800 shadow-xl ring-1 ring-cyan-500/20"
-              >
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="p-4"
-                >
-                  {/* User Info */}
-                  <div className="flex items-center space-x-3 mb-4 pb-4 border-b border-gray-700">
-                    <div className="w-10 h-10 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center text-white font-semibold">
-                      {getUserInitial()}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-white truncate">
-                        {currentUser.firstName} {currentUser.lastName}
-                      </p>
-                      <p className="text-sm text-gray-300 truncate">
-                        {currentUser.email}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Menu Items */}
-                  <div className="space-y-2">
-                    <a
-                      href="/profile"
-                      className="flex items-center px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-gray-700/50 rounded-lg transition-colors duration-200"
-                    >
-                      <UserIcon className="w-4 h-4 mr-3" />
-                      My Profile
-                    </a>
-                    <a
-                      href="/orders"
-                      className="flex items-center px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-gray-700/50 rounded-lg transition-colors duration-200"
-                    >
-                      <ShoppingBagIcon className="w-4 h-4 mr-3" />
-                      My Orders
-                    </a>
-                    <button
-                      onClick={handleLogout}
-                      className="flex items-center w-full px-3 py-2 text-sm text-red-300 hover:text-red-100 hover:bg-red-900/20 rounded-lg transition-colors duration-200"
-                    >
-                      <ArrowRightOnRectangleIcon className="w-4 h-4 mr-3" />
-                      Sign Out
-                    </button>
-                  </div>
-                </motion.div>
-              </PopoverPanel>
-            </Popover>
-          ) : (
-            <motion.a
-              href="/login"
-              className="text-gray-400 hover:text-white transition-colors duration-200"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <UserIcon className="size-6" />
-            </motion.a>
-          )}
-
-          {/* Cart Icon */}
-          <motion.button
-            onClick={() => setIsCartOpen(true)}
-            className="text-gray-400 hover:text-white transition-colors duration-200 relative"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
-              />
-            </svg>
-            {cartItemsCount > 0 && (
-              <span className="absolute -top-2 -right-2 bg-cyan-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold">
-                {cartItemsCount}
-              </span>
             )}
-          </motion.button>
-
-          {/* Wishlist Icon */}
-          <motion.button
-            onClick={handleComingSoon}
-            className="text-gray-400 hover:text-white transition-colors duration-200"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
-              />
-            </svg>
-          </motion.button>
-        </div>
-
-        {/* Mobile Menu Button - Right Side */}
-        <div className="flex lg:hidden">
-          <button
-            type="button"
-            onClick={() => setMobileMenuOpen(true)}
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-400 hover:text-white transition-colors duration-200"
-          >
-            <span className="sr-only">Open main menu</span>
-            <Bars3Icon aria-hidden="true" className="size-6" />
-          </button>
-        </div>
-      </nav>
-
-      {/* Mobile Menu Dialog */}
-      <Dialog
-        open={mobileMenuOpen}
-        onClose={setMobileMenuOpen}
-        className="lg:hidden"
-      >
-        <div className="fixed inset-0 z-50" />
-        <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-gray-900 p-6 sm:max-w-sm sm:ring-1 sm:ring-gray-100/10">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="-m-1.5 p-1.5">
-              <span className="sr-only">DummyShop</span>
-              <div className="text-white text-xl font-bold">DummyShop</div>
-            </Link>
-            <button
-              type="button"
-              onClick={() => setMobileMenuOpen(false)}
-              className="-m-2.5 rounded-md p-2.5 text-gray-400 hover:text-white transition-colors duration-200"
-            >
-              <span className="sr-only">Close menu</span>
-              <XMarkIcon aria-hidden="true" className="size-6" />
-            </button>
-          </div>
-          <div className="mt-6 flow-root">
-            <div className="-my-6 divide-y divide-white/10">
-              <div className="space-y-2 py-6">
-                <Disclosure as="div" className="-mx-3">
-                  <DisclosureButton className="group flex w-full items-center justify-between rounded-lg py-2 pr-3.5 pl-3 text-base/7 font-semibold text-white hover:bg-gray-800 transition-colors duration-200">
-                    Features
-                    <ChevronDownIcon
-                      aria-hidden="true"
-                      className="size-5 flex-none group-data-open:rotate-180 transition-transform duration-200"
-                    />
-                  </DisclosureButton>
-                  <DisclosurePanel className="mt-2 space-y-2">
-                    {products.map((item) => (
-                      <a // ← Change DisclosureButton to regular <a> tag
-                        key={item.name}
-                        href="#"
-                        onClick={handleComingSoon}
-                        className="block rounded-lg py-2 pr-3 pl-6 text-sm/7 font-semibold text-white hover:bg-gray-800 transition-colors duration-200 flex items-center space-x-3 border border-transparent hover:border-cyan-500/20"
-                      >
-                        <div
-                          className={`w-8 h-8 rounded-lg bg-gradient-to-r ${item.color} flex items-center justify-center shadow-lg`}
-                        >
-                          <item.icon className="w-4 h-4 text-white" />
-                        </div>
-                        <div>
-                          <div className="flex items-center space-x-2">
-                            <span>{item.name}</span>
-                            <span
-                              className={`text-xs px-1.5 py-0.5 rounded bg-gradient-to-r ${item.color} text-white`}
-                            >
-                              {item.badge}
-                            </span>
-                          </div>
-                          <p className="text-xs text-gray-300 mt-1">
-                            {item.description}
-                          </p>
-                        </div>
-                      </a> // ← Close with </a> instead of </DisclosureButton>
-                    ))}
-                  </DisclosurePanel>
-                </Disclosure>
-                <a
-                  href="/products"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-gray-800 transition-colors duration-200"
-                >
-                  Products
-                </a>
-                <a
-                  onClick={handleComingSoon}
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-gray-800 transition-colors duration-200"
-                >
-                  Marketplace
-                </a>
-                <a
-                  href="/company"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-gray-800 transition-colors duration-200"
-                >
-                  Company
-                </a>
-              </div>
-              <div className="py-6 flex space-x-4">
-                {currentUser ? (
-                  <div className="flex items-center space-x-3">
-                    <div className="w-8 h-8 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                      {getUserInitial()}
-                    </div>
-                    <div className="text-white text-sm">
-                      <p>Hello, {currentUser.firstName}</p>
-                      <button
-                        onClick={handleLogout}
-                        className="text-red-300 hover:text-red-100 text-xs"
-                      >
-                        Sign Out
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <a
-                    href="/login"
-                    className="text-gray-400 hover:text-white transition-colors duration-200"
-                  >
-                    <UserIcon className="w-6 h-6" />
-                  </a>
-                )}
-                <button
-                  onClick={() => setIsCartOpen(true)}
-                  className="text-gray-400 hover:text-white transition-colors duration-200 relative"
-                >
-                  <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.5"
-                      d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
-                    />
-                  </svg>
-                  {cartItemsCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-cyan-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center font-semibold">
-                      {cartItemsCount}
-                    </span>
-                  )}
-                </button>
-                <button
-                  onClick={handleComingSoon}
-                  className="text-gray-400 hover:text-white transition-colors duration-200"
-                >
-                  <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.5"
-                      d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </div>
-        </DialogPanel>
-      </Dialog>
-
-      {/* Cart Sidebar */}
-      <CartSidebar isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
-    </header>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
   );
-}
+};
+
+// Add these missing icons at the top with other imports
+const TruckIcon = (props) => (
+  <svg {...props} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0" />
+  </svg>
+);
+
+const ShieldCheckIcon = (props) => (
+  <svg {...props} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+  </svg>
+);
+
+const ArrowPathIcon = (props) => (
+  <svg {...props} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+  </svg>
+);
+
+export default CartSidebar;
