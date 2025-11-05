@@ -5,42 +5,70 @@ import {
   ShoppingBagIcon,
   TrashIcon,
   PlusIcon,
-  MinusIcon,
-  ArrowRightIcon
+  MinusIcon
 } from '@heroicons/react/24/outline';
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
+
 
 const CartSidebar = ({ isOpen, onClose }) => {
   const [cartItems, setCartItems] = useState([]);
 
-  // Sample cart data - replace with your actual cart state
   useEffect(() => {
     const sampleCart = [
       {
         id: 1,
-        name: "Everyday Tote",
+        name: "Everyday Tote Bag",
         price: 49,
         image: "/images/purse.png",
         quantity: 2,
         color: "Dark Gray",
-        size: "M"
+        size: "Medium"
       },
       {
         id: 2,
-        name: "Runner Shoe",
+        name: "Premium Runner Shoes",
         price: 89,
         image: "/images/shoes.png",
         quantity: 1,
         color: "Black",
         size: "42"
+      },
+      {
+        id: 3,
+        name: "Commuter Backpack Pro",
+        price: 129,
+        image: "/images/newbag.png",
+        quantity: 1,
+        color: "Navy Blue",
+        size: "Large"
+      },
+      {
+        id: 4,
+        name: "Leather Sling Pouch",
+        price: 29,
+        image: "/images/pouch.png",
+        quantity: 3,
+        color: "Brown",
+        size: "Small"
+      },
+      {
+        id: 5,
+        name: "Urban Hoodie Classic",
+        price: 69,
+        image: "/images/jacket.png",
+        quantity: 1,
+        color: "Charcoal",
+        size: "Large"
       }
     ];
     setCartItems(sampleCart);
   }, [isOpen]);
 
   const updateQuantity = (id, newQuantity) => {
-    if (newQuantity < 1) return;
+    if (newQuantity < 1) {
+      removeItem(id);
+      return;
+    }
     setCartItems(prev => 
       prev.map(item => 
         item.id === id ? { ...item, quantity: newQuantity } : item
@@ -60,33 +88,33 @@ const CartSidebar = ({ isOpen, onClose }) => {
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Backdrop */}
+          {/* Backdrop - Higher z-index to overlay everything */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50"
+            className="fixed inset-0 bg-gray-900/80 w-full h-screen backdrop-blur-sm z-[100]"
             onClick={onClose}
           />
           
-          {/* Sidebar */}
+          {/* Sidebar - Full height with higher z-index */}
           <motion.div
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl z-50 flex flex-col"
+            className="fixed top-0 right-0 h-screen w-full max-w-md bg-gray-900 shadow-2xl z-[101] flex flex-col border-l border-gray-700"
           >
             
-            {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b border-gray-200">
+            {/* Header - Fixed height */}
+            <div className="flex-shrink-0 flex items-center justify-between p-6 border-b border-gray-700 bg-gray-900">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-cyan-100 rounded-xl flex items-center justify-center">
-                  <ShoppingBagIcon className="w-5 h-5 text-cyan-600" />
+                <div className="w-10 h-10 bg-cyan-500/20 rounded-xl flex items-center justify-center">
+                  <ShoppingBagIcon className="w-5 h-5 text-cyan-400" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-gray-900">Your Cart</h2>
-                  <p className="text-sm text-gray-500">
+                  <h2 className="text-xl font-bold text-white">Shopping Cart</h2>
+                  <p className="text-sm text-gray-400">
                     {cartItems.length} {cartItems.length === 1 ? 'item' : 'items'}
                   </p>
                 </div>
@@ -96,92 +124,106 @@ const CartSidebar = ({ isOpen, onClose }) => {
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={onClose}
-                className="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center text-gray-600 hover:text-gray-800 transition-colors"
+                className="w-10 h-10 bg-gray-800 rounded-xl flex items-center justify-center text-gray-400 hover:text-white transition-colors border border-gray-700"
               >
                 <XMarkIcon className="w-5 h-5" />
               </motion.button>
             </div>
 
-            {/* Cart Items */}
-            <div className="flex-1 overflow-y-auto p-6">
+            {/* Cart Items - Scrollable Area with flexible height */}
+            <div className="flex-1 overflow-y-auto">
               {cartItems.length === 0 ? (
-                <div className="text-center py-12">
-                  <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <ShoppingBagIcon className="w-8 h-8 text-gray-400" />
+                <div className="h-full flex items-center justify-center px-6">
+                  <div className="text-center">
+                    <div className="w-24 h-24 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4 border border-gray-700">
+                      <ShoppingBagIcon className="w-8 h-8 text-gray-500" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-white mb-2">Your cart is empty</h3>
+                    <p className="text-gray-400 mb-6">Start shopping to add items to your cart</p>
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={onClose}
+                      className="bg-cyan-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-cyan-700 transition-colors border border-cyan-500/30"
+                    >
+                      Continue Shopping
+                    </motion.button>
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Your cart is empty</h3>
-                  <p className="text-gray-500 mb-6">Start shopping to add items to your cart</p>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={onClose}
-                    className="bg-cyan-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-cyan-700 transition-colors"
-                  >
-                    Continue Shopping
-                  </motion.button>
                 </div>
               ) : (
-                <div className="space-y-4">
-                  {cartItems.map((item) => (
+                <div className="p-4 space-y-3">
+                  {cartItems.map((item, index) => (
                     <motion.div
                       key={item.id}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="flex space-x-4 bg-white rounded-2xl border border-gray-200 p-4 hover:shadow-lg transition-shadow"
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      className="bg-gray-800 rounded-xl border border-gray-700 p-4 hover:border-cyan-500/30 transition-all duration-300"
                     >
-                      {/* Product Image */}
-                      <div className="flex-shrink-0 w-20 h-20 bg-gray-100 rounded-xl flex items-center justify-center">
-                        <img
-                          src={item.image}
-                          alt={item.name}
-                          className="w-16 h-16 object-contain"
-                        />
-                      </div>
+                      <div className="flex space-x-4">
+                        {/* Product Image - Fixed Size */}
+                        <div className="flex-shrink-0 w-20 h-20 bg-gray-700 rounded-lg flex items-center justify-center p-2 border border-gray-600">
+                          <img
+                            src={item.image}
+                            alt={item.name}
+                            className="w-full h-full object-contain"
+                          />
+                        </div>
 
-                      {/* Product Details */}
-                      <div className="flex-1 min-w-0">
-                        <h3 className="text-sm font-semibold text-gray-900 truncate">
-                          {item.name}
-                        </h3>
-                        <p className="text-sm text-gray-500 mt-1">
-                          {item.color} • {item.size}
-                        </p>
-                        <p className="text-lg font-bold text-gray-900 mt-2">
-                          ${item.price}
-                        </p>
+                        {/* Product Details */}
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-sm font-semibold text-white truncate">
+                            {item.name}
+                          </h3>
+                          <p className="text-xs text-gray-400 mt-1">
+                            {item.color} • {item.size}
+                          </p>
+                          
+                          {/* Price and Quantity Row */}
+                          <div className="flex items-center justify-between mt-3">
+                            <p className="text-lg font-bold text-cyan-400">
+                              ${item.price}
+                            </p>
 
-                        {/* Quantity Controls */}
-                        <div className="flex items-center justify-between mt-3">
-                          <div className="flex items-center space-x-3">
-                            <motion.button
-                              whileHover={{ scale: 1.1 }}
-                              whileTap={{ scale: 0.9 }}
-                              onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                              className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center text-gray-600 hover:bg-gray-200 transition-colors"
-                            >
-                              <MinusIcon className="w-4 h-4" />
-                            </motion.button>
-                            <span className="w-8 text-center font-semibold text-gray-900">
-                              {item.quantity}
+                            {/* Quantity Controls */}
+                            <div className="flex items-center space-x-3">
+                              <motion.button
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.9 }}
+                                onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                                className="w-8 h-8 bg-gray-700 rounded-lg flex items-center justify-center text-gray-300 hover:bg-gray-600 hover:text-white transition-colors border border-gray-600"
+                              >
+                                <MinusIcon className="w-3 h-3" />
+                              </motion.button>
+                              <span className="w-6 text-center font-semibold text-white text-sm">
+                                {item.quantity}
+                              </span>
+                              <motion.button
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.9 }}
+                                onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                                className="w-8 h-8 bg-gray-700 rounded-lg flex items-center justify-center text-gray-300 hover:bg-gray-600 hover:text-white transition-colors border border-gray-600"
+                              >
+                                <PlusIcon className="w-3 h-3" />
+                              </motion.button>
+                            </div>
+                          </div>
+
+                          {/* Item Total and Remove */}
+                          <div className="flex items-center justify-between mt-2">
+                            <span className="text-sm text-gray-400">
+                              Total: <span className="text-cyan-400 font-semibold">${(item.price * item.quantity).toFixed(2)}</span>
                             </span>
                             <motion.button
                               whileHover={{ scale: 1.1 }}
                               whileTap={{ scale: 0.9 }}
-                              onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                              className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center text-gray-600 hover:bg-gray-200 transition-colors"
+                              onClick={() => removeItem(item.id)}
+                              className="text-red-400 hover:text-red-300 transition-colors text-sm font-medium flex items-center space-x-1"
                             >
-                              <PlusIcon className="w-4 h-4" />
+                              <TrashIcon className="w-4 h-4" />
+                              <span>Remove</span>
                             </motion.button>
                           </div>
-
-                          <motion.button
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.9 }}
-                            onClick={() => removeItem(item.id)}
-                            className="w-8 h-8 bg-red-50 rounded-lg flex items-center justify-center text-red-600 hover:bg-red-100 transition-colors"
-                          >
-                            <TrashIcon className="w-4 h-4" />
-                          </motion.button>
                         </div>
                       </div>
                     </motion.div>
@@ -190,80 +232,65 @@ const CartSidebar = ({ isOpen, onClose }) => {
               )}
             </div>
 
-            {/* Footer - Summary & Checkout */}
+            {/* Footer - Fixed at bottom */}
             {cartItems.length > 0 && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="border-t border-gray-200 p-6 space-y-4"
+                className="flex-shrink-0 border-t border-gray-700 p-6 space-y-4 bg-gray-800/50"
               >
+                {/* Progress Bar for Free Shipping */}
+                {subtotal < 50 && (
+                  <div className="bg-gray-800 rounded-lg p-3 border border-gray-700">
+                    <div className="flex justify-between text-sm mb-2">
+                      <span className="text-cyan-400 font-medium">Free shipping on orders over $50</span>
+                      <span className="text-gray-400">${subtotal.toFixed(2)} / $50</span>
+                    </div>
+                    <div className="w-full bg-gray-700 rounded-full h-2">
+                      <div 
+                        className="bg-gradient-to-r from-cyan-500 to-blue-500 h-2 rounded-full transition-all duration-500"
+                        style={{ width: `${Math.min((subtotal / 50) * 100, 100)}%` }}
+                      />
+                    </div>
+                    <p className="text-xs text-cyan-400 mt-2">
+                      Add ${(50 - subtotal).toFixed(2)} more for free shipping!
+                    </p>
+                  </div>
+                )}
+
                 {/* Summary */}
                 <div className="space-y-3">
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Subtotal</span>
-                    <span className="font-semibold text-gray-900">${subtotal.toFixed(2)}</span>
+                    <span className="text-gray-400">Subtotal</span>
+                    <span className="font-semibold text-white">${subtotal.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Shipping</span>
-                    <span className="font-semibold text-gray-900">
-                      {shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`}
+                    <span className="text-gray-400">Shipping</span>
+                    <span className="font-semibold text-white">
+                      {shipping === 0 ? (
+                        <span className="text-green-400">Free</span>
+                      ) : (
+                        `$${shipping.toFixed(2)}`
+                      )}
                     </span>
                   </div>
-                  {subtotal < 50 && (
-                    <div className="text-xs text-cyan-600 bg-cyan-50 rounded-lg p-2">
-                      Add ${(50 - subtotal).toFixed(2)} more for free shipping!
-                    </div>
-                  )}
-                  <div className="flex justify-between text-lg font-bold border-t border-gray-200 pt-3">
-                    <span>Total</span>
-                    <span>${total.toFixed(2)}</span>
+                  <div className="flex justify-between text-lg font-bold border-t border-gray-700 pt-3">
+                    <span className="text-white">Total</span>
+                    <span className="text-cyan-400">${total.toFixed(2)}</span>
                   </div>
                 </div>
 
-                {/* Action Buttons */}
-                <div className="space-y-3">
-                  <Link href="/cart">
-                    <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={onClose}
-                      className="w-full bg-white border-2 border-cyan-600 text-cyan-600 py-3 rounded-xl font-semibold hover:bg-cyan-50 transition-colors flex items-center justify-center space-x-2"
-                    >
-                      <span>View Full Cart</span>
-                      <ArrowRightIcon className="w-4 h-4" />
-                    </motion.button>
-                  </Link>
-                  
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="w-full bg-gradient-to-r from-cyan-600 to-blue-600 text-white py-3 rounded-xl font-semibold hover:from-cyan-700 hover:to-blue-700 transition-all shadow-lg shadow-cyan-500/25"
-                  >
-                    Proceed to Checkout
-                  </motion.button>
-                </div>
+                {/* Checkout Button */}
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full bg-gradient-to-r from-cyan-600 to-blue-600 text-white py-4 rounded-xl font-semibold hover:from-cyan-700 hover:to-blue-700 transition-all duration-300 shadow-lg shadow-cyan-500/25 border border-cyan-500/30 flex items-center justify-center space-x-2"
+                >
+                  <ShoppingBagIcon className="w-5 h-5" />
+                  <span>Proceed to Checkout</span>
+                </motion.button>
 
-                {/* Trust Badges */}
-                <div className="grid grid-cols-3 gap-4 pt-4 border-t border-gray-200">
-                  <div className="text-center">
-                    <div className="w-8 h-8 bg-cyan-100 rounded-lg flex items-center justify-center mx-auto mb-1">
-                      <TruckIcon className="w-4 h-4 text-cyan-600" />
-                    </div>
-                    <p className="text-xs text-gray-600">Free Shipping</p>
-                  </div>
-                  <div className="text-center">
-                    <div className="w-8 h-8 bg-cyan-100 rounded-lg flex items-center justify-center mx-auto mb-1">
-                      <ShieldCheckIcon className="w-4 h-4 text-cyan-600" />
-                    </div>
-                    <p className="text-xs text-gray-600">Secure Payment</p>
-                  </div>
-                  <div className="text-center">
-                    <div className="w-8 h-8 bg-cyan-100 rounded-lg flex items-center justify-center mx-auto mb-1">
-                      <ArrowPathIcon className="w-4 h-4 text-cyan-600" />
-                    </div>
-                    <p className="text-xs text-gray-600">Easy Returns</p>
-                  </div>
-                </div>
+              
               </motion.div>
             )}
           </motion.div>
@@ -272,25 +299,5 @@ const CartSidebar = ({ isOpen, onClose }) => {
     </AnimatePresence>
   );
 };
-
-// Add these missing icons at the top with other imports
-const TruckIcon = (props) => (
-  <svg {...props} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0" />
-  </svg>
-);
-
-const ShieldCheckIcon = (props) => (
-  <svg {...props} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-  </svg>
-);
-
-const ArrowPathIcon = (props) => (
-  <svg {...props} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-  </svg>
-);
 
 export default CartSidebar;

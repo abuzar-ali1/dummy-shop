@@ -4,6 +4,8 @@ import { AuthProvider } from "./context/AuthContext";
 import { ToastProvider } from "./ui/Components/ToasterProvider";
 import Header from "./ui/Components/Header";
 import Footer from "./ui/Components/Footer";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,6 +30,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
       > 
+        {/* <Provider store={store}> */}
          <AuthProvider>
             <ToastProvider>
             <Header />
@@ -37,6 +40,7 @@ export default function RootLayout({ children }) {
             <Footer />
             </ToastProvider>
         </AuthProvider>
+        {/* </Provider> */}
       </body>
     </html>
   );
