@@ -1,11 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { AuthProvider } from "./context/AuthContext";
-import { ToastProvider } from "./ui/Components/ToasterProvider";
-import Header from "./ui/Components/Header";
-import Footer from "./ui/Components/Footer";
-import { Provider } from "react-redux";
-import { store } from "./store/store";
+import ClientApp from "./ClientApp";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,18 +24,10 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
-      > 
-        {/* <Provider store={store}> */}
-         <AuthProvider>
-            <ToastProvider>
-            <Header />
-            <main className="flex-1 pt-25">
-              {children}
-            </main>
-            <Footer />
-            </ToastProvider>
-        </AuthProvider>
-        {/* </Provider> */}
+      > <ClientApp>
+        {children}
+      </ClientApp>
+        
       </body>
     </html>
   );
