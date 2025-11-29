@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import ProductCard from "./ProductCard";
 
+
 const products = [
   {
     id: 1,
@@ -12,6 +13,7 @@ const products = [
     compareAt: "69",
     image: "/images/purse.png",
     desc: "Lightweight, durable and water-resistant — perfect for daily commute.",
+    quantity: 1,
   },
   {
     id: 2,
@@ -20,6 +22,7 @@ const products = [
     compareAt: "109",
     image: "/images/shoes.png",
     desc: "Cushioned sole and breathable upper for all-day comfort.",
+    quantity: 1,
   },
   {
     id: 3,
@@ -28,6 +31,7 @@ const products = [
     compareAt: "159",
     image: "/images/newbag.png",
     desc: "Organized pockets and water-resistant material.",
+    quantity: 1,
   },
   {
     id: 4,
@@ -36,6 +40,7 @@ const products = [
     compareAt: "39",
     image: "/images/pouch.png",
     desc: "Compact carry for everyday essentials.",
+    quantity: 1,
   },
   {
     id: 5,
@@ -44,6 +49,7 @@ const products = [
     compareAt: "89",
     image: "/images/jacket.png",
     desc: "Soft brushed interior, relaxed fit and durable stitching — great for cool mornings.",
+    quantity: 1,
   },
   {
     id: 6,
@@ -52,6 +58,7 @@ const products = [
     compareAt: "129",
     image: "/images/bigbag.png",
     desc: "Roomy main compartment, padded shoulder strap and water-resistant base for weekend getaways.",
+    quantity: 1,
   },
   {
     id: 7,
@@ -60,6 +67,7 @@ const products = [
     compareAt: "30",
     image: "/images/cap.png",
     desc: "Lightweight, one-size adjustable cap with sweat-wicking band — a daily go-to.",
+    quantity: 1,
   },
   {
     id: 8,
@@ -68,6 +76,7 @@ const products = [
     compareAt: "34",
     image: "/images/bottle.png",
     desc: "Insulated stainless steel bottle keeps drinks cold for 24 hours and leak-proof on the move.",
+    quantity: 1,
   },
 ];
 

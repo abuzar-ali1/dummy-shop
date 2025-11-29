@@ -2,101 +2,10 @@ import { motion } from 'framer-motion';
 import { StarIcon } from '@heroicons/react/24/solid';
 import BestSellerProductCard from './BestSellerProductCard';
 import FillHoverButton from './FillHoverButton';
+import { bestSellerProducts } from '@/data/products';
 
 
 const BestSellersSection = () => {
-
-const bestSellerProducts = [
-    {
-      id: 1,
-      name: "Classic Hoodie",
-      description: "Soft, premium cotton blend for everyday comfort.",
-      price: 59,
-      originalPrice: 75,
-      rating: 4.5,
-      reviewCount: 128,
-      unitsSold: "200+",
-      src: "/images/hoddie.png" 
-    },
-    {
-      id: 2,
-      name: "Travel Backpack",
-      description: "Smart organization for work and weekend trips.",
-      price: 139,
-      originalPrice: 165,
-      rating: 5,
-      reviewCount: 89,
-      unitsSold: "150+",
-      src: "/images/travelbag.png" 
-    },
-    {
-      id: 3,
-      name: "Premium Sneakers",
-      description: "All-day comfort with modern minimalist design.",
-      price: 99,
-      originalPrice: 120,
-      rating: 4.8,
-      reviewCount: 204,
-      unitsSold: "300+",
-      src: "/images/sneaker.png" 
-    },
-    {
-      id: 4,
-      name: "Weekend Tote",
-      description: "Spacious and stylish for your daily essentials.",
-      price: 45,
-      originalPrice: 60,
-      rating: 4.3,
-      reviewCount: 76,
-      unitsSold: "120+",
-      src: "/images/tote.png" 
-    },
-    {
-      id: 5,
-      name: "Wireless Earbuds Pro",
-      description: "Crystal clear sound with 30hr battery life and noise cancellation.",
-      price: 129,
-      originalPrice: 159,
-      rating: 4.7,
-      reviewCount: 245,
-      unitsSold: "400+",
-      src: "/images/airpodes.png" 
-    },
-    {
-      id: 6,
-      name: "Fitness Tracker",
-      description: "Track steps, heart rate, and sleep with precision.",
-      price: 89,
-      originalPrice: 120,
-      rating: 4.4,
-      reviewCount: 167,
-      unitsSold: "280+",
-      src: "/images/trackerwatch.png" 
-    },
-    {
-      id: 7,
-      name: "Leather Wallet",
-      description: "Slim design with RFID protection and multiple card slots.",
-      price: 65,
-      originalPrice: 85,
-      rating: 4.6,
-      reviewCount: 98,
-      unitsSold: "190+",
-      src: "/images/wallet.png" 
-    },
-    {
-      id: 8,
-      name: "Desk Lamp Smart",
-      description: "Adjustable brightness with wireless charging base.",
-      price: 79,
-      originalPrice: 99,
-      rating: 4.8,
-      reviewCount: 134,
-      unitsSold: "220+",
-      src: "/images/lamp.png"
-    }
-];
-
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -142,7 +51,6 @@ const bestSellerProducts = [
           <BestSellerProductCard
             key={product.id} 
             product={product} 
-            src={product.src}
             variant="bestseller" 
           />
         ))}

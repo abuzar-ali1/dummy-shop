@@ -1,16 +1,17 @@
 import { motion } from 'framer-motion';
 import { StarIcon, ShoppingBagIcon } from '@heroicons/react/24/solid';
 import Image from 'next/image';
+import { addToCart } from '@/app/store/slices/cartSlice';
+import { useDispatch } from 'react-redux';
 
 // best seller product card
 const BestSellerProductCard = ({ 
   product, 
-  src,
   variant = "default" 
 }) => {
   const isNewArrival = variant === "new";
   const isBestSeller = variant === "bestseller";
-  
+  const dispatch = useDispatch();
   return (
     <motion.div
       className={`bg-white rounded-lg overflow-hidden ${
@@ -34,7 +35,7 @@ const BestSellerProductCard = ({
           transition={{ duration: 0.3 }}
         >
           <Image
-            src={src}
+            src={product.image}
             alt="Productt image"
             fill
             className="object-cover"
@@ -102,6 +103,7 @@ const BestSellerProductCard = ({
         
         {/* CTA Button */}
         <motion.button
+          onClick={()=> dispatch(addToCart(product))}
           className={`w-full py-2 rounded-md flex items-center justify-center ${
             isBestSeller 
               ? 'bg-[#0f1724] text-white hover:bg-gray-800' 

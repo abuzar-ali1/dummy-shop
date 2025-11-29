@@ -32,6 +32,7 @@ import {
 import { useAuth } from '@/app/context/AuthContext';
 import { useComingSoon } from '../hooks/useComingSoon';
 import CartSidebar from './CartSidebar';
+import { useSelector } from 'react-redux';
 
 const products = [
   {
@@ -84,15 +85,13 @@ const callsToAction = [
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [cartItemsCount, setCartItemsCount] = useState(0);
-
+  const cartItems = useSelector(state => state.cart.cart);
+  const [cartItemsCount, setCartItemsCount] = useState(0);  
   const { handleComingSoon } = useComingSoon();
   const { currentUser, logout } = useAuth();
-
-  // Sample cart count - replace with your actual cart state
-  useEffect(() => {
-    setCartItemsCount(2); // This would come from your cart context
-  }, []);
+  useEffect(()=>{
+    setCartItemsCount(cartItems.length);
+  },[cartItems])
 
   const handleLogout = () => {
     logout();

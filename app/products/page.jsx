@@ -4,33 +4,10 @@ import BestSellersSection from "../ui/Components/BestSeller";
 import NewArrivals from "../ui/Components/NewArrivals";
 import AnimatedProduct from "../ui/Components/AnimatedProduct";
 import { motion } from 'framer-motion';
+import { showCasePoducts } from "@/data/products";
 
 
 const page = () => {
-
-     const productsForAnimated =[
-    {
-        id:1,
-        name: "Everyday Tote",
-        desc:" Lightweight, durable and water-resistant — perfect for daily commute.",
-        src:"images/showcase.png",
-        price:49
-    },
-    {
-      id: 2,
-      name: "Classic Hoodie",
-      desc: "Soft, premium cotton blend for everyday comfort.",
-      src: "/images/showjacket.png" ,
-      price: 59,
-    },
-    {
-    id: 6,
-    name: "Minimalist Watch",
-    desc: "Sleek design with genuine leather strap and precise movement.",
-    price: 149,
-    src: "/images/showwatch.png",
-    }
-  ];
 
   return (
     <div>
@@ -96,7 +73,7 @@ const page = () => {
     </motion.div>
 
        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" >
-        {productsForAnimated.map((p) =>(
+        {showCasePoducts.map((p) =>(
           <AnimatedProduct key={p.id} p={p}/>
         )
         )}

@@ -1,8 +1,11 @@
 import React from "react";
 import { motion, useReducedMotion } from 'framer-motion';
+import { useDispatch } from "react-redux";
+import { addToCart } from "@/app/store/slices/cartSlice";
 
 const AnimatedProduct = ({ p }) => {
   const reduce = useReducedMotion();
+  const dispatch = useDispatch();
   
   const bgVariants = {
     rest: { x: "100%" },
@@ -46,14 +49,14 @@ const AnimatedProduct = ({ p }) => {
               initial={{ scale: 0.95, rotate: -4, opacity: 0 }}
               animate={{ scale: 1, rotate: 0, opacity: 1 }}
               transition={{ duration: 0.9, ease: "easeOut" }}
-              className="w-48 h-48 md:w-56 md:h-56 relative overflow-hidden" // Fixed dimensions with overflow hidden
+              className="w-48 h-48 md:w-56 md:h-56 relative overflow-hidden" 
             >
               <motion.img
-                src={p.src}
+                src={p.image}
                 alt={p.name}
                 draggable={false}
-                className="w-full h-full object-contain" // This ensures image fits within container
-                animate={reduce ? {} : { y: [0, -10, 0] }} // Reduced floating distance
+                className="w-full h-full object-contain" 
+                animate={reduce ? {} : { y: [0, -10, 0] }} 
                 transition={
                   reduce
                     ? {}
@@ -116,6 +119,7 @@ const AnimatedProduct = ({ p }) => {
 
               {/* Add to bag button */}
               <motion.button
+                onClick={()=>dispatch(addToCart(p))}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.98 }}
                 className="w-full sm:flex-1 inline-flex items-center justify-center rounded-lg bg-[#0f1724] text-white px-4 py-2 text-sm font-semibold shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 whitespace-nowrap"

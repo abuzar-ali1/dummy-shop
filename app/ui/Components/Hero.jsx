@@ -2,15 +2,20 @@
 import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import FillHoverButton from "./FillHoverButton";
+import { showCasePoducts } from "@/data/products";
+import { useDispatch } from "react-redux";
+import { addToCart } from "@/app/store/slices/cartSlice";
 
-export default function HeroSection({amplitude = 20}) {
+export default function HeroSection({ amplitude = 20 }) {
+  const showCasePoduct = showCasePoducts.find(item => item.id === 1);
+  const dispatch = useDispatch();
+  
   const reduce = useReducedMotion();
 
   const bgVariants = {
     rest: { x: "100%" },
     hover: { x: "0%", transition: { duration: 0.36, ease: "easeOut" } },
   };
-
 
   // text color animates to white
   const textVariants = {
@@ -20,7 +25,7 @@ export default function HeroSection({amplitude = 20}) {
       transition: { duration: 0.22, ease: "easeOut" },
     },
   };
-    const animateProps = reduce
+  const animateProps = reduce
     ? { y: 0, scale: 1, opacity: 1 }
     : { y: [0, amplitude, 0], scale: [1, 1.03, 1], opacity: [1, 0.96, 1] };
 
@@ -34,7 +39,6 @@ export default function HeroSection({amplitude = 20}) {
         // optional: times can help define timing of keyframes
         times: [0, 0.5, 1],
       };
-
 
   return (
     <section className="relative bg-white mt-15">
@@ -143,7 +147,7 @@ export default function HeroSection({amplitude = 20}) {
                     className="w-64 h-64 relative"
                   >
                     <motion.img
-                      src="images/showcase.png"
+                      src={showCasePoduct.image}
                       draggable={false}
                       // subtle up-down keyframes
                       animate={reduce ? {} : { y: [0, -20, 0] }}
@@ -161,87 +165,86 @@ export default function HeroSection({amplitude = 20}) {
                   </motion.div>
                 </div>
 
-               <div className="p-6 flex-1 flex flex-col">
-        <div className="min-w-0">
-          <h3 className="font-semibold text-lg text-gray-900 leading-tight">
-            Everyday Tote
-          </h3>
+                <div className="p-6 flex-1 flex flex-col">
+                  <div className="min-w-0">
+                    <h3 className="font-semibold text-lg text-gray-900 leading-tight">
+                      {showCasePoduct.name}
+                    </h3>
 
-          <p className="text-sm text-gray-500 mt-3 max-w-none leading-relaxed">
-              Lightweight, durable and water-resistant — perfect for daily commute.
-          </p>
+                    <p className="text-sm text-gray-500 mt-3 max-w-none leading-relaxed">
+                      {showCasePoduct.desc}
+                    </p>
 
-          <div className="mt-4 flex items-baseline gap-3">
-            <span className="text-xl font-bold text-gray-900">49</span>
-            <span className="text-sm text-gray-400 line-through">69</span>
-          </div>
-        </div>
+                    <div className="mt-4 flex items-baseline gap-3">
+                      <span className="text-xl font-bold text-gray-900">
+                        {`${showCasePoduct.price}`}
+                      </span>
+                      <span className="text-sm text-gray-400 line-through">
+                        $69
+                      </span>
+                    </div>
+                  </div>
+                </div>
 
-        
-      </div>
+                {/* ACTIONS (bottom) */}
+                <div className="p-4 pt-0">
+                  <div className="w-full flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                    {/* View product — animated fill from right to left */}
+                    <motion.a
+                      href="#"
+                      initial="rest"
+                      whileHover={reduce ? "rest" : "hover"}
+                      whileTap={{ scale: 0.98 }}
+                      className="relative overflow-hidden w-full sm:w-auto inline-flex items-center justify-center rounded-md border border-gray-200 px-4 py-2 text-sm font-semibold bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
+                      aria-label="View product"
+                    >
+                      <motion.span
+                        aria-hidden
+                        variants={bgVariants}
+                        className="absolute inset-0 z-0"
+                        style={{ background: "#0f1724" }} // change to your brand color
+                      />
+                      <motion.span
+                        className="relative z-10 pointer-events-none"
+                        variants={textVariants}
+                      >
+                        View product
+                      </motion.span>
+                    </motion.a>
 
-      {/* ACTIONS (bottom) */}
-      <div className="p-4 pt-0">
-        <div className="w-full flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-          {/* View product — animated fill from right to left */}
-          <motion.a
-            href="#"
-            initial="rest"
-            whileHover={reduce ? "rest" : "hover"}
-            whileTap={{ scale: 0.98 }}
-            className="relative overflow-hidden w-full sm:w-auto inline-flex items-center justify-center rounded-md border border-gray-200 px-4 py-2 text-sm font-semibold bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
-            aria-label="View product"
-          >
-            <motion.span
-              aria-hidden
-              variants={bgVariants}
-              className="absolute inset-0 z-0"
-              style={{ background: "#0f1724" }} // change to your brand color
-            />
-            <motion.span className="relative z-10 pointer-events-none" variants={textVariants}>
-              View product
-            </motion.span>
-          </motion.a>
+                    {/* Add to bag — primary */}
+                    <motion.button
+                      onClick={()=>dispatch(addToCart(showCasePoduct))}
+                      whileHover={{ scale: 1.03 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="w-full sm:w-auto inline-flex items-center justify-center rounded-lg bg-[#0f1724] text-white px-5 py-2 text-sm font-semibold shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 whitespace-nowrap min-w-[120px]"
+                      aria-label="Add to bag"
+                    >
+                      Add to bag
+                    </motion.button>
+                  </div>
 
-          {/* Add to bag — primary */}
-          <motion.button
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.98 }}
-            className="w-full sm:w-auto inline-flex items-center justify-center rounded-lg bg-[#0f1724] text-white px-5 py-2 text-sm font-semibold shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 whitespace-nowrap min-w-[120px]"
-            aria-label="Add to bag"
-          >
-            Add to bag
-          </motion.button>
-        </div>
+                  {/* optional micro info on mobile under buttons */}
+                  <div className="mt-3 text-xs text-gray-500 flex flex-wrap gap-3">
+                    <span>• Fast delivery</span>
+                    <span>• Sustainable materials</span>
+                    <span>• 30-day returns</span>
+                  </div>
+                </div>
 
-        {/* optional micro info on mobile under buttons */}
-        <div className="mt-3 text-xs text-gray-500 flex flex-wrap gap-3">
-          <span>• Fast delivery</span>
-          <span>• Sustainable materials</span>
-          <span>• 30-day returns</span>
-        </div>
-      </div>
-    
-
-
-
-
-                {/* slight floating badge */}
-    <motion.div
-      // start at y:0 on mount
-      initial={{ y: 0, scale: 1, opacity: 1 }}
-      // use direct animate (keyframes + transition) — reliable across refresh/hydration
-      animate={animateProps}
-      transition={transitionProps}
-      style={{ willChange: "transform" }} // hint the browser for smoother animation
-      className="absolute -top-3 left-4 md:-top-4 bg-white/90 border border-gray-100 px-3 py-1 rounded-full text-xs font-medium shadow-sm"
-      role="status"
-      aria-label="Best seller"
-    >
-      Best seller
-    </motion.div>
-
-
+                <motion.div
+                  // start at y:0 on mount
+                  initial={{ y: 0, scale: 1, opacity: 1 }}
+                  // use direct animate (keyframes + transition) — reliable across refresh/hydration
+                  animate={animateProps}
+                  transition={transitionProps}
+                  style={{ willChange: "transform" }} // hint the browser for smoother animation
+                  className="absolute -top-3 left-4 md:-top-4 bg-white/90 border border-gray-100 px-3 py-1 rounded-full text-xs font-medium shadow-sm"
+                  role="status"
+                  aria-label="Best seller"
+                >
+                  Best seller
+                </motion.div>
               </div>
             </div>
           </motion.div>

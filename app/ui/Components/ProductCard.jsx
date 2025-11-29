@@ -2,10 +2,17 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { useState } from "react";
 import ProductModal from "./ProductModel";
+import { useDispatch } from "react-redux";
+import { addToCart } from "@/app/store/slices/cartSlice";
+
 
 export default function ProductCard({ p }) {
+  const dispatch = useDispatch();
+  
+  
   const reduce = useReducedMotion();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  
 
   const cardVariants = {
     hidden: { opacity: 0, y: 10 },
@@ -87,6 +94,7 @@ export default function ProductCard({ p }) {
 
             {/* Add to Cart Button */}
             <motion.button
+              onClick={()=> dispatch(addToCart(p))}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.98 }}
               className="w-full sm:w-auto inline-flex items-center justify-center rounded-md bg-[#0f1724] text-white px-4 py-2 text-sm font-semibold shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 min-w-[120px]"
