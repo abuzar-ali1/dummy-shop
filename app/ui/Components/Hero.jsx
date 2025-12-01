@@ -9,7 +9,9 @@ import { addToCart } from "@/app/store/slices/cartSlice";
 export default function HeroSection({ amplitude = 20 }) {
   const showCasePoduct = showCasePoducts.find(item => item.id === 1);
   const dispatch = useDispatch();
-  
+  const handleAddToCart =(item)=>{
+    dispatch(addToCart(item));
+  }
   const reduce = useReducedMotion();
 
   const bgVariants = {
@@ -214,7 +216,7 @@ export default function HeroSection({ amplitude = 20 }) {
 
                     {/* Add to bag — primary */}
                     <motion.button
-                      onClick={()=>dispatch(addToCart(showCasePoduct))}
+                      onClick={()=>handleAddToCart(showCasePoduct)}
                       whileHover={{ scale: 1.03 }}
                       whileTap={{ scale: 0.98 }}
                       className="w-full sm:w-auto inline-flex items-center justify-center rounded-lg bg-[#0f1724] text-white px-5 py-2 text-sm font-semibold shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 whitespace-nowrap min-w-[120px]"

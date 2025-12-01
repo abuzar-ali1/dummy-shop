@@ -6,6 +6,9 @@ import { addToCart } from "@/app/store/slices/cartSlice";
 const AnimatedProduct = ({ p }) => {
   const reduce = useReducedMotion();
   const dispatch = useDispatch();
+   const handleAddToCart = (item) => {
+       dispatch(addToCart(item));
+    }
   
   const bgVariants = {
     rest: { x: "100%" },
@@ -119,7 +122,7 @@ const AnimatedProduct = ({ p }) => {
 
               {/* Add to bag button */}
               <motion.button
-                onClick={()=>dispatch(addToCart(p))}
+                onClick={()=>handleAddToCart(p)}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.98 }}
                 className="w-full sm:flex-1 inline-flex items-center justify-center rounded-lg bg-[#0f1724] text-white px-4 py-2 text-sm font-semibold shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 whitespace-nowrap"

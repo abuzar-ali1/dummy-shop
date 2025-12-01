@@ -12,6 +12,10 @@ const BestSellerProductCard = ({
   const isNewArrival = variant === "new";
   const isBestSeller = variant === "bestseller";
   const dispatch = useDispatch();
+
+  const handleAddToCart = (item) => {
+     dispatch(addToCart(item));
+  }
   return (
     <motion.div
       className={`bg-white rounded-lg overflow-hidden ${
@@ -103,7 +107,7 @@ const BestSellerProductCard = ({
         
         {/* CTA Button */}
         <motion.button
-          onClick={()=> dispatch(addToCart(product))}
+          onClick={()=>handleAddToCart(product)}
           className={`w-full py-2 rounded-md flex items-center justify-center ${
             isBestSeller 
               ? 'bg-[#0f1724] text-white hover:bg-gray-800' 
