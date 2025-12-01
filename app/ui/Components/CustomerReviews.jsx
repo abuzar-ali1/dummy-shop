@@ -116,7 +116,7 @@ const CustomerReviews = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <div className="inline-flex items-center bg-cyan-50 text-cyan-600 px-4 py-2 rounded-full text-sm font-medium mb-4">
+          <div className="inline-flex items-center bg-gray-900 text-white px-4 py-2 rounded-full text-sm font-medium mb-4">
             <StarIcon className="w-4 h-4 mr-2" />
             Customer Stories
           </div>

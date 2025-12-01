@@ -104,7 +104,7 @@ const WhyChooseUs = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <div className="inline-flex items-center bg-gray-100 text-gray-600 px-4 py-2 rounded-full text-sm font-medium mb-4">
+          <div className="inline-flex items-center  bg-gray-900 text-white px-4 py-2 rounded-full text-sm font-medium mb-4">
             <ShieldCheckIcon className="w-4 h-4 mr-2" />
             Why Shop With Us
           </div>

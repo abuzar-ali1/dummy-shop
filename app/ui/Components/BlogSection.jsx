@@ -67,7 +67,7 @@ const BlogSection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <div className="inline-flex items-center bg-white text-gray-600 px-4 py-2 rounded-full text-sm font-medium mb-4 shadow-sm border border-gray-200">
+          <div className="inline-flex items-center  bg-gray-900 text-white px-4 py-2 rounded-full text-sm font-medium mb-4 shadow-sm border border-gray-200">
             <CalendarIcon className="w-4 h-4 mr-2" />
             Latest Stories
           </div>

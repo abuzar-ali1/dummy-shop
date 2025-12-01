@@ -108,9 +108,7 @@ export default function Header() {
         aria-label="Global"
         className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
       >
-        {/* Mobile Icons - Left Side */}
         <div className="flex lg:hidden items-center space-x-4">
-          {/* User Icon */}
           {currentUser ? (
             <motion.div
               whileHover={{ scale: 1.1 }}
@@ -292,14 +290,16 @@ export default function Header() {
                   {/* Menu Items */}
                   <div className="space-y-2">
                     <a
-                      href="/profile"
+                      href="#"
+                      onClick={handleComingSoon}
                       className="flex items-center px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-gray-700/50 rounded-lg transition-colors duration-200"
                     >
                       <UserIcon className="w-4 h-4 mr-3" />
                       My Profile
                     </a>
                     <a
-                      href="/orders"
+                      href="#"
+                      onClick={handleComingSoon}
                       className="flex items-center px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-gray-700/50 rounded-lg transition-colors duration-200"
                     >
                       <ShoppingBagIcon className="w-4 h-4 mr-3" />
